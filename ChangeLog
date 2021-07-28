@@ -2,6 +2,9 @@
 
 	* Add translation for epoll(7) from manpages.
 	  Thanks for contribution from Phi-Li.
+	* Update COPYRIGHT information.
+	* utils/gen-manpage-listfile: Always append newline.
+	* Release 1.6.3.5.
 
 2020-05-20  Boyuan Yang <073plan@gmail.com>
 

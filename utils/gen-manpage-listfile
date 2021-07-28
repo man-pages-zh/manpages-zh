@@ -47,6 +47,7 @@ def do_generate(dirpath):
                 _is_first_iter = False
             else:
                 f.write(' \\\n' + '\t' + entry)
+        f.write('\n')
 
 def main():
     _ensure_pwd()
