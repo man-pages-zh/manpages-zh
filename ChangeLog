@@ -1,3 +1,8 @@
+2021-07-28  Boyuan Yang <073plan@gmail.com>
+
+	* Add translation for epoll(7) from manpages.
+	  Thanks for contribution from Phi-Li.
+
 2020-05-20  Boyuan Yang <073plan@gmail.com>
 
 	* Minor fix on console_codes(4).
