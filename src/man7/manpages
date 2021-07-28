@@ -72,6 +72,7 @@ MANPAGES = \
 	drop_user.7 \
 	drop_view.7 \
 	end.7 \
+	epoll.7 \
 	execute.7 \
 	explain.7 \
 	fetch.7 \
