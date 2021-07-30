@@ -1,3 +1,8 @@
+2021-07-30  Boyuan Yang <073plan@gmail.com>
+
+	* open(2): Minor fix to text.
+	  Inspired by changes from GitHub @jiangqii.
+
 2021-07-28  Boyuan Yang <073plan@gmail.com>
 
 	* Add translation for epoll(7) from manpages.
