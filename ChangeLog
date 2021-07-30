@@ -2,6 +2,8 @@
 
 	* open(2): Minor fix to text.
 	  Inspired by changes from GitHub @jiangqii.
+	* unicode_start(1): Retranslate using upstream man page
+	  from kbd 2.3.0.
 
 2021-07-28  Boyuan Yang <073plan@gmail.com>
 

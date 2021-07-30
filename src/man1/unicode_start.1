@@ -1,31 +1,27 @@
-.TH UNICODE_START 1 "28 Oct 1997" "控制台工具" "Linux 用户手册"
-
-.SH NAME
-unicode_start \- 将控制台设为Unicode模式.
-
-.SH 总览
-.B unicode_start
-.BI [ " font " [ " screen-font-map " "] ]"
-
+.\" @(#)unicode_start.1 1.0 010203 aeb
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH UNICODE_START 1 2001年2月3日 kbd
+.SH 名称
+unicode_start \- 将键盘和控制台设为 unicode 模式
+.SH 概述
+\fBunicode_start\fP [\fI字体\fP [\fIumap\fP]]
 .SH 描述
-.B unicode_start
-命令将显示屏及键盘设为
-.IR "Unicode 模式" ,
-并且有
-可能还会装载所用的
-.I 字体
-和
-.IR "显示屏-字体 映射" . 
-如果没有给出
-参数,就使用当前的
-.I 字体
-和
-.IR "显示屏-字体 映射" . 
-
-.SH BUGS
-如果没有装载"显示屏-字体 映射", 可能会有麻烦.
-
-.SH "另见"
-.BR unicode_stop (1),
-.BR consolechars (8).
-
+.LP
+\fBunicode_start\fP 命令会将键盘和控制台设为 Unicode（UTF\-8）模式。
+.LP
+对键盘来说，这意味着用户可以使用 \fBloadkeys\fP(1) 将16位 U+xxxx 的值附加在键盘的按键上，并令其成为用户程序的 UTF\-8
+输入。同时，用户可以使用小键盘键入十六进制的 Alt\-xxxx 字符，并同样产生 UTF\-8 输入效果。
+.LP
+对控制台来说，这意味着内核期望从用户程序得到 UTF\-8 输出，并相应地显示这些输出。
+.LP
+指定的 \fI字体\fP 参数是加载的字体。它应当含有内置的 Unicode
+映射表；如果没有，应当使用第二个参数显式指定映射表。如果未指定字体，则维持使用原字体。
+.SH 备注
+Unicode 模式是每个虚拟控制台对应一个值的参数。然而，通常情况下字体和键盘映射对全部控制台均通用。
+.SH 参见
+\fBdumpkeys\fP(1), \fBkbd_mode\fP(1), \fBloadkeys\fP(1), \fBunicode_stop\fP(1),
+\fButf\-8\fP(7), \fBsetfont\fP(8)
