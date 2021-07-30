@@ -4,6 +4,8 @@
 	  Inspired by changes from GitHub @jiangqii.
 	* unicode_start(1): Retranslate using upstream man page
 	  from kbd 2.3.0.
+	* man*/zh_TW/Makefile.am: Use opencc s2twp.json for better
+	  conversion.
 
 2021-07-28  Boyuan Yang <073plan@gmail.com>
 
