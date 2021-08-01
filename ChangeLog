@@ -1,3 +1,8 @@
+2021-08-01  Boyuan Yang <073plan@gmail.com>
+
+	* unicode_stop(1): Retranslate using upstream man page
+	  from kbd 2.3.0.
+
 2021-07-30  Boyuan Yang <073plan@gmail.com>
 
 	* open(2): Minor fix to text.

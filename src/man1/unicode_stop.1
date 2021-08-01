@@ -1,20 +1,17 @@
-.TH UNICODE_STOP 1 "28 Oct 1997" "控制台工具" "Linux 用户手册"
-
-.SH NAME
-unicode_stop \- 撤销控制台unicode模式(例如, 回到8-bit模式).
-
-.SH 总览
-.B unicode_stop
-
+.\" @(#)unicode_stop.1 1.0 010203 aeb
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH UNICODE_STOP 1 2001年2月3日 kbd 
+.SH 名称
+unicode_stop \- 将键盘和控制台从 unicode 模式回退
+.SH 概述
+\fBunicode_stop\fP
 .SH 描述
-.B unicode_stop
-撤销以前
-.BR unicode_start (1)
-命令的效果, 将显示
-屏和键盘设回到
-.IR "8-bit 模式" .
-
-.SH "另见"
-.BR unicode_start (1),
-.BR consolechars (8).
-
+.LP
+\fBunicode_stop\fP 命令会一定程度上撤销 \fBunicode_start\fP 命令的效果。它会将键盘置于 ASCII (XLATE)
+模式，并清除控制台的 UTF\-8 模式。
+.SH 参见
+\fBkbd_mode\fP(1), \fBunicode_start\fP(1), \fButf\-8\fP(7), \fBsetfont\fP(8)
