@@ -1,5 +1,18 @@
 manpages-zh
 
+Version 1.6.3.6 (2021-09-30)
+* Minor text fix to open(2).
+* Retranslate unicode_start(1), unicode_stop(1) from kbd 2.3.0.
+* Retranslate ulimit(3) from manpages-dev 5.10.
+* Use opencc s2twp.json for better zh_TW translation.
+
+Version 1.6.3.5 (2021-07-30)
+* Retranslate ln(1) using coreutils man page.
+* Retranslate kill(1) using man page from procps-ng instead of bsdutils.
+* Add translation for od(1), pr(1), epoll(7).
+* Fix translation error in console_codes(4).
+* Various fixes.
+
 Version 1.6.3.4 (2020-05-09)
 * Remove manpage stub for bash builtins.
 * Import coreutils 8.32 translation.
