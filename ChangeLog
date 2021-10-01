@@ -1,3 +1,8 @@
+2021-09-30  Boyuan Yang <073plan@gmail.com>
+
+	* ulimit(3): Retranslate using upstream man page from
+	  manpages-dev 5.10.
+
 2021-08-01  Boyuan Yang <073plan@gmail.com>
 
 	* unicode_stop(1): Retranslate using upstream man page

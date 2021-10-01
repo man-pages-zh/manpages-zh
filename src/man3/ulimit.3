@@ -1,7 +1,6 @@
-.\" Hey Emacs! This file is -*- nroff -*- source.
-.\"
 .\" Copyright (C) 1996 Andries Brouwer (aeb@cwi.nl)
 .\"
+.\" %%%LICENSE_START(VERBATIM)
 .\" Permission is granted to make and distribute verbatim copies of this
 .\" manual provided the copyright notice and this permission notice are
 .\" preserved on all copies.
@@ -9,8 +8,8 @@
 .\" Permission is granted to copy and distribute modified versions of this
 .\" manual under the conditions for verbatim copying, provided that the
 .\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one
-.\" 
+.\" permission notice identical to this one.
+.\"
 .\" Since the Linux kernel and libraries are constantly changing, this
 .\" manual page may be incorrect or out-of-date.  The author(s) assume no
 .\" responsibility for errors or omissions, or for damages resulting from
@@ -18,49 +17,64 @@
 .\" have taken the same level of care in the production of this manual,
 .\" which is licensed free of charge, as they might when working
 .\" professionally.
-.\" 
+.\"
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
+.\" %%%LICENSE_END
 .\"
 .\" Moved to man3, aeb, 980612
 .\"
-.TH ULIMIT 3 "12 June 1998" "Linux 2.0" "Linux Programmer's Manual"
-.SH NAME
-ulimit \- 获取和改变用户的限制设定
-.SH 大纲
-.B #include <ulimit.h>
-.sp
-.BI "long ulimit(int " cmd ", long " newlimit );
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH ULIMIT 3 2017\-09\-15 Linux "Linux 程序员手册"
+.SH 名称
+ulimit \- 获取并设置用户限制
+.SH 概述
+\fB#include <ulimit.h>\fP
+.PP
+\fBlong ulimit(int \fP\fIcmd\fP\fB, long \fP\fInewlimit\fP\fB);\fP
 .SH 描述
-警告: 这个函数已经被废弃. glibc 不再提供这个包含文件. 使用 getrlimit(2), 
-setrlimit(2) 和 sysconf(3) 代替这个函数. 相关shell命令
-.BR ulimit ,
-参见
-.BR bash (1).
-
-使用
-.B ulimit
-可以获得或改变当前进程的限制设定.
-.I cmd
-参数可以是下列值中的一个:
-.TP
-.B UL_GETFSIZE 
-返回文件大小的限制 (以512字节为单位).
-.TP
-.B UL_SETFSIZE
-设定文件大小的限制.
-.TP
-.B 3
-(Linux不支持)
-返回数据段可以使用的最大地址.
-.TP
-.B 4
-(支持,但没有定义符号常量) 
-返回调用本函数的进程可以打开的最大文件数.
-
-.SH "返回值"
-如果执行成功，
-.BR ulimit()
-返回非负值. 如果发生错误，返回\-1并设定
-.I errno
-指示错误发生。
+警告：该例程已过时。请使用 \fBgetrlimit\fP(2)、\fBsetrlimit\fP(2) 和 \fBsysconf\fP(3) 代替。有关 shell 命令
+\fBulimit\fP() 请参见 \fBbash\fP(1)。
+.PP
+\fBulimit\fP() 调用可以获取或设置调用进程的某些限制。\fIcmd\fP 参数可以取如下的值。
+.TP 
+\fBUL_GETFSIZE\fP
+返回文件大小相关的限制，单位为 512 字节。
+.TP 
+\fBUL_SETFSIZE\fP
+设置文件大小相关的限制。
+.TP 
+\fB3\fP
+（Linux 未实现。）返回数据段可能的最大地址。
+.TP 
+\fB4\fP
+（已实现，但未提供符号常量。）返回调用进程可以打开文件的最大数量。
+.SH 返回值
+如果成功，\fBulimit\fP() 返回非零值。如果出错，返回值为 \-1，且将相应设置 \fIerrno\fP 的值。
+.SH 错误
+.TP 
+\fBEPERM\fP
+一个无权限的进程尝试提升限制。
+.SH 属性
+如需了解本节中所使用术语的解释，请查看 \fBattributes\fP(7)。
+.TS
+allbox;
+lb lb lb
+l l l.
+接口	属性	值
+T{
+\fBulimit\fP()
+T}	线程安全性	多线程安全
+.TE
+.sp 1
+.SH 遵循标准
+SVr4，POSIX.1\-2001。POSIX.1\-2008 将 \fBulimit\fP() 标记为过时。
+.SH 参见
+\fBbash\fP(1), \fBgetrlimit\fP(2), \fBsetrlimit\fP(2), \fBsysconf\fP(3)
+.SH 注记
+此页面是 Linux \fIman\-pages\fP 项目 5.10 版的一部分。您可以访问
+\%https://www.kernel.org/doc/man\-pages/ 来了解项目的描述、报告问题的方法和此页面的最新版本。
