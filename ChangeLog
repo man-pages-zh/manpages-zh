@@ -1,3 +1,7 @@
+2021-10-01  Boyuan Yang <073plan@gmail.com>
+
+	* zless(1): Retranslate using upstream man page from gzip 1.10.
+
 2021-09-30  Boyuan Yang <073plan@gmail.com>
 
 	* ulimit(3): Retranslate using upstream man page from

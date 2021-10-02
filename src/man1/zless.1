@@ -1,34 +1,50 @@
-.TH ZLESS 1
-.SH NAME
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH ZLESS 1   
+.SH 名称
 zless \- 用于在显示器上阅读被压缩的文本文件的过滤器
-
-.SH "总览 (SYNOPSIS)"
-.B zless
-[ name ...  ]
-
-.SH "描述 (DESCRIPTION)"
-.I  Zless
-是一个文件过滤器, 用于在终端上全屏幕形式查看压缩的或没压缩的文本文件.
-它等于把环境变量 PAGER 设置为
-.I less,
-然后运行 zmore. 但是很多人认为
-.I zless
-命令很重要, 值得提供.
-
-.SH "另见 (SEE ALSO)"
+.SH 概述
+\fBzless\fP [ 文件名 ...  ]
+.SH 描述
+\fIZless\fP 是一个文件过滤器，可以在软终端上以全屏幕的形式显示经过压缩或未经压缩的文本文件。它等效于将环境变量 LESSOPEN 设置为
+\&'|gzip \-cdfq \-\- %s'，LESSMETACHARS 设置为
+\&'<space><tab><newline>;*?"()<>[|&^`#\e$%=~'，然后运行
+\fIless\fP 命令。然而，很多人认为独立的 \fIzless\fP 命令同样重要且值得提供。
+.SH 参见
 zmore(1), less(1)
+.SH 缺陷
+\fIZless\fP 无法在压缩数据使用管道经由标准输入方式提供的情况下工作； 它要求输入文件必须经由参数给出。如需从管道中读取压缩数据，您可以使用
+\&.\|.\|.\fB|gunzip|less\fP instead of .\|.\|.\fB|zless\fP 作为替代。
+.SH 版权声明
+Copyright \(co 2006\-2007, 2015\-2018 Free Software Foundation, Inc.
+.br
+Copyright \(co 1992, 1993 Jean\-loup Gailly
+.PP
+Permission is granted to make and distribute verbatim copies of this manual
+provided the copyright notice and this permission notice are preserved on
+all copies.
 
-.SH "缺陷 (BUGS)"
-\fIZless\fR 无法在压缩数据使用管道经由标准输入方式提供的情况下工作；
-它要求输入文件必须经由参数给出。
-如需从管道中读取压缩数据，您可以使用 ...\fI|gunzip|less\fR
-来替代 ...\fI|zless\fR。
+授予制作和发布本手册的逐字副本的权限，条件为此权限声明在所有副本中必须保持原样。
+.ig
+Permission is granted to process this file through troff and print the
+results, provided the printed document carries copying permission
+notice identical to this one except for the removal of this paragraph
+(this paragraph not being relevant to the printed manual).
+..
+.PP
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission notice
+identical to this one.
 
-.SH "[中文版维护人]"
-.B 徐明 <xuming@users.sourceforge.net>
-.SH "[中文版最新更新]"
-.BR 2004/02/8
-.SH "《中国Linux论坛man手册页翻译计划》"
-.BI http://cmpp.linuxforum.net
+授予复制和制作此手册经过修改的版本的权限，其条件与逐字副本的情况一致，且整个衍生工作须以与本权限声明完全相同的条款进行发布。
+.PP
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation approved
+by the Foundation.
 
-
+授予复制和发布本手册页其它语言的翻译的权限，其条件与受修改副本的情况一致；作为例外，本权限声明可以按照（自由软件）基金会批准的翻译文本进行阐述。（译者注：当前翻译未经批准，仅供参考；具体条款请以英文原文为准。）
