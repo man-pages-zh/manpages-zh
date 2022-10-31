@@ -189,6 +189,9 @@ POSIXLY_CORRECT 的环境变量，除非用\(lq -k \(rq选项，块大小是 512
 .B "-A, --almost-all"
 显示除 "." 和 ".." 外的所有文件。
 .TP
+.B "--author"
+使用长格式（“ -l” 选项 ）时，打印每个文件作者信息。
+.TP
 .B "-B, --ignore-backups"
 不输出以\(lq ~ \(rq结尾的备份文件，除非已经在命令行中给出。
 .TP
@@ -265,6 +268,9 @@ always 总是使用颜色。指定 --color 而且省略 when 时就等同于 --c
 是不能改变的，但是你可以用 cut(1) 取出其中的日期字串并将结果送至命令
 \(lq date -d \(rq。
 .TP
+.B "-Z, --context"
+打印每个文件的安全上下文（ security context ）。
+.TP
 输出的时间包括秒是非常有用的。（ Unix 文件系统储存文件的时间信息精确到秒，
 因此这个选项已经给出了系统所知的全部信息。）例如，当你有一个 Makefile 文件
 不能恰当的生成文件时，这个选项会提供帮助。
@@ -303,6 +309,6 @@ fileutils-bugs@gnu.ai.mit.edu 。
 .SH "[中文版维护人]"
 .B wangdong <wangdong@163.net>
 .SH "[中文版最新更新]"
-.B 2003.11.22
+.B 2022.10.31
 .SH "《中国linux论坛man手册翻译计划》:"
 .BI http://cmpp.linuxforum.net 
