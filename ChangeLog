@@ -1,3 +1,8 @@
+2022-12-07  Boyuan Yang <073plan@gmail.com>
+
+	* Import and update coreutils 9.1 translation.
+	* Release 1.6.3.7.
+
 2021-10-01  Boyuan Yang <073plan@gmail.com>
 
 	* zless(1): Retranslate using upstream man page from gzip 1.10.

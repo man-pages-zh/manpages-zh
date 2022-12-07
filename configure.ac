@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.61])
-AC_INIT([manpages-zh],[1.6.3.6],[https://github.com/man-pages-zh/manpages-zh/issues])
+AC_INIT([manpages-zh],[1.6.3.7],[https://github.com/man-pages-zh/manpages-zh/issues])
 AC_CONFIG_SRCDIR([src/man1/basename.1])
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_MAINTAINER_MODE
