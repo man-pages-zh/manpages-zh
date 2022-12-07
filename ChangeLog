@@ -2,6 +2,7 @@
 
 	* Import and update coreutils 9.1 translation.
 	* Release 1.6.3.7.
+	* ls(1): Replace old translation with coreutils 9.1 man page.
 
 2021-10-01  Boyuan Yang <073plan@gmail.com>
 
