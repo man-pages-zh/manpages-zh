@@ -1,3 +1,4 @@
 * Some pages are too old to be helpful.
   部分内容过旧，需要志愿者参与更新。
 * Add configure options to exclude certain manual pages.
+* Current hacky CMakeLists.txt cannot handle '[.1', needs investigation
