@@ -8,3 +8,6 @@ configure
 install-sh
 missing
 src/man*/zh_*/*
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
