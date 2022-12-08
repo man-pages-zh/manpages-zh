@@ -1,3 +1,7 @@
+2022-12-08  Boyuan Yang <073plan@gmail.com>
+
+	* stty(1): Retranslated from coreutils 9.1.
+
 2022-12-07  Boyuan Yang <073plan@gmail.com>
 
 	* Import and update coreutils 9.1 translation.
