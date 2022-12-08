@@ -1,6 +1,7 @@
 2022-12-08  Boyuan Yang <073plan@gmail.com>
 
 	* stty(1): Retranslated from coreutils 9.1.
+	* vt-is-UTF8(1): Dropped, tool already disappeared.
 
 2022-12-07  Boyuan Yang <073plan@gmail.com>
 

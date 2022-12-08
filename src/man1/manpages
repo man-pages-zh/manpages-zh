@@ -269,7 +269,6 @@ MANPAGES = \
 	vim.1 \
 	vimtutor.1 \
 	virtex.1 \
-	vt-is-UTF8.1 \
 	w.1 \
 	wall.1 \
 	wbinfo.1 \
