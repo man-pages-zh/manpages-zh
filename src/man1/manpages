@@ -1,5 +1,4 @@
 MANPAGES = \
-	[.1 \
 	ab.1 \
 	ac.1 \
 	access.1 \
