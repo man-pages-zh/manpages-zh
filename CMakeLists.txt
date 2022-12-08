@@ -32,7 +32,9 @@ endif ()
 
 
 ## Actual handling of man pages
-add_custom_target(man ALL)
+set(builtstamp "${CMAKE_BINARY_DIR}/.builtstamp")
+add_custom_target(man ALL DEPENDS ${builtstamp})
+
 
 set(MANDIR_LIST "man1" "man2" "man3" "man4" "man5" "man6" "man7" "man8" "mann")
 
@@ -53,8 +55,10 @@ foreach (MANDIR ${MANDIR_LIST})
             endif ()
         endif (FILTER_EXCLUDED_MANPAGES)
 
-        set(MAN_PAGE_PREPAREDIR_ZHCN "${PROJECT_BINARY_DIR}/zh_CN/man${MAN_PAGE_SECTION}/")
-        set(MAN_PAGE_PREPAREDIR_ZHTW "${PROJECT_BINARY_DIR}/zh_TW/man${MAN_PAGE_SECTION}/")
+        set(MAN_PAGE_ROOTDIR_ZHCN "${PROJECT_BINARY_DIR}/zh_CN")
+        set(MAN_PAGE_ROOTDIR_ZHTW "${PROJECT_BINARY_DIR}/zh_TW")
+        set(MAN_PAGE_PREPAREDIR_ZHCN "${MAN_PAGE_ROOTDIR_ZHCN}/man${MAN_PAGE_SECTION}/")
+        set(MAN_PAGE_PREPAREDIR_ZHTW "${MAN_PAGE_ROOTDIR_ZHTW}/man${MAN_PAGE_SECTION}/")
         if (ENABLE_APPEND_COLOPHON)
             set(APPEND_COLOPHON_COMMAND "${CMAKE_SOURCE_DIR}/utils/append-colophon")
         else ()
@@ -92,9 +96,14 @@ foreach (MANDIR ${MANDIR_LIST})
     endforeach ()
 endforeach ()
 
+# Build finish stamp
+add_custom_command(OUTPUT ${builtstamp}
+    COMMAND ${CMAKE_COMMAND} -E touch ${builtstamp})
+
+
 if (ENABLE_ZHCN)
-    install(FILES ${MAN_PAGE_PREPAREDIR_ZHCN} DESTINATION "${CMAKE_INSTALL_MANDIR}/")
+    install(FILES ${MAN_PAGE_ROOTDIR_ZHCN} DESTINATION "${CMAKE_INSTALL_MANDIR}/")
 endif()
 if (ENABLE_ZHTW)
-    install(FILES ${MAN_PAGE_PREPAREDIR_ZHTW} DESTINATION "${CMAKE_INSTALL_MANDIR}/")
+    install(FILES ${MAN_PAGE_ROOTDIR_ZHTW} DESTINATION "${CMAKE_INSTALL_MANDIR}/")
 endif()
