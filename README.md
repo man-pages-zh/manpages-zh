@@ -53,11 +53,11 @@ information in each file for its exact license.
 
 构建依赖包括：
 
-* autotools (autoconf, automake)
+* autotools (autoconf, automake) 或 cmake 其一
 * python3
 * opencc 1.x
 
-### “编译”安装
+### “编译”安装（Autotools）
 
 ```bash
 autoreconf --install --force
@@ -65,6 +65,21 @@ autoreconf --install --force
 make
 make install # 需要超级用户权限
 ```
+
+### “编译”安装（CMake）
+
+```bash
+mkdir build && cd build/
+cmake ..
+make
+make install # 需要超级用户权限
+```
+
+可用的 CMake 参数：
+
+* `ENABLE_APPEND_COLOPHON`: 在手册页末尾添加翻译人员信息
+* `ENABLE_ZHCN`: 生成并安装简体中文手册页
+* `ENABLE_ZHTW`: 生成并安装繁体中文手册页
 
 ### 从 Linux 发行版安装
 

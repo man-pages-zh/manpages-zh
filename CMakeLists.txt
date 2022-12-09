@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.12)
 # SPDX-FileCopyrightText: 2022 Boyuan Yang <073plan@gmail.com>
 # SPDX-License-Identifier: CC0-1.0 OR BSD-2-Clause
 
-include(CMakePrintHelpers)
 include(GNUInstallDirs)
 project(manpages-zh VERSION 1.6.4.0 HOMEPAGE_URL "https://github.com/man-pages-zh/manpages-zh")
 
@@ -15,7 +14,10 @@ set(EXCLUDED_MANPAGES "" CACHE STRING "Man pages that are not installed")
 
 list(LENGTH EXCLUDED_MANPAGES EXCLUDED_MANPAGES_SIZE)
 if (EXCLUDED_MANPAGES_SIZE GREATER 0)
-    message(STATUS "Will exclude total of ${EXCLUDED_MANPAGES_SIZE} man pages.")
+    message(STATUS "Will exclude ${EXCLUDED_MANPAGES_SIZE} man pages:")
+    foreach (EXCLUDED_MANPAGE EXCLUDED_MANPAGES)
+        message(STATUS " * ${EXCLUDED_MANPAGE}")
+    endforeach ()
     set(FILTER_EXCLUDED_MANPAGES 1)
 else ()
     set(FILTER_EXCLUDED_MANPAGES 0)
@@ -40,7 +42,6 @@ set(MANDIR_LIST "man1" "man2" "man3" "man4" "man5" "man6" "man7" "man8" "mann")
 foreach (MANDIR ${MANDIR_LIST})
     file(GLOB CURRENT_MAN_PAGES "src/${MANDIR}/*.*")
     foreach (CURRENT_MAN_PAGE ${CURRENT_MAN_PAGES})
-        cmake_print_variables(CURRENT_MAN_PAGE)
         get_filename_component(MAN_PAGE_NAME ${CURRENT_MAN_PAGE} NAME)
         string(REGEX REPLACE "(.*)\\." "" MAN_PAGE_SECTION_RAW ${MAN_PAGE_NAME})
         string(SUBSTRING ${MAN_PAGE_SECTION_RAW} 0 1 MAN_PAGE_SECTION)
@@ -81,7 +82,6 @@ foreach (MANDIR ${MANDIR_LIST})
                 DEPENDS ${PROCESS_OUTPUT_ZHCN}
             )
             add_dependencies(man man_zhcn_${MAN_PAGE_NAME}_build)
-            cmake_print_variables(PROCESS_COMMAND_ZHCN)
         endif (ENABLE_ZHCN)
         if (ENABLE_ZHTW)
             add_custom_command(OUTPUT ${PROCESS_OUTPUT_ZHTW}
