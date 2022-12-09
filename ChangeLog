@@ -2,6 +2,7 @@
 
 	* CMakeLists.txt: Migrate build system to CMake.
 	* Bump version string to 1.6.4.0.
+	* Remove old automake/autotools build system.
 
 2022-12-08  Boyuan Yang <073plan@gmail.com>
 

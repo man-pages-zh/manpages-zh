@@ -53,18 +53,9 @@ information in each file for its exact license.
 
 构建依赖包括：
 
-* autotools (autoconf, automake) 或 cmake 其一
+* cmake 3.12+
 * python3
 * opencc 1.x
-
-### “编译”安装（Autotools）
-
-```bash
-autoreconf --install --force
-./configure
-make
-make install # 需要超级用户权限
-```
 
 ### “编译”安装（CMake）
 
