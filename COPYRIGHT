@@ -17,6 +17,11 @@ Copyright:
  2016-2020 Boyuan Yang <byang@debian.org>
 License: public-domain
 
+Files: CMakeLists.txt
+Copyright:
+ 2022 Boyuan Yang <073plan@gmail.com>
+License: CC0-1.0 or BSD-2-Clause
+
 Files:
  src/man1/kill.1
 Copyright:
