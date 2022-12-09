@@ -73,31 +73,25 @@ foreach (MANDIR ${MANDIR_LIST})
             "bash" "-c" "'cat;${CURRENT_MAN_PAGE}|${APPEND_COLOPHON_COMMAND}|opencc;-c;s2twp.json;>;${PROCESS_OUTPUT_ZHTW}'")
 
         if (ENABLE_ZHCN)
-            add_custom_target(man_zhcn_${MAN_PAGE_NAME}_dir
-                COMMAND ${CMAKE_COMMAND} -E make_directory
-                ${MAN_PAGE_PREPAREDIR_ZHCN}
-                OUTPUT ${MAN_PAGE_PREPAREDIR_ZHCN}
+            add_custom_command(OUTPUT ${PROCESS_OUTPUT_ZHCN}
+                COMMAND ${CMAKE_COMMAND} -E make_directory ${MAN_PAGE_PREPAREDIR_ZHCN}
+                COMMAND ${PROCESS_COMMAND_ZHCN}
             )
             add_custom_target(man_zhcn_${MAN_PAGE_NAME}_build
-                COMMAND ${PROCESS_COMMAND_ZHCN}
-                OUTPUT ${PROCESS_OUTPUT_ZHCN}
+                DEPENDS ${PROCESS_OUTPUT_ZHCN}
             )
             add_dependencies(man man_zhcn_${MAN_PAGE_NAME}_build)
-            add_dependencies(man_zhcn_${MAN_PAGE_NAME}_build man_zhcn_${MAN_PAGE_NAME}_dir)
             cmake_print_variables(PROCESS_COMMAND_ZHCN)
         endif (ENABLE_ZHCN)
         if (ENABLE_ZHTW)
-            add_custom_target(man_zhtw_${MAN_PAGE_NAME}_dir
-                COMMAND ${CMAKE_COMMAND} -E make_directory
-                ${MAN_PAGE_PREPAREDIR_ZHTW}
-                OUTPUT ${MAN_PAGE_PREPAREDIR_ZHTW}
+            add_custom_command(OUTPUT ${PROCESS_OUTPUT_ZHTW}
+                COMMAND ${CMAKE_COMMAND} -E make_directory ${MAN_PAGE_PREPAREDIR_ZHTW}
+                COMMAND ${PROCESS_COMMAND_ZHTW}
             )
             add_custom_target(man_zhtw_${MAN_PAGE_NAME}_build
-                COMMAND ${PROCESS_COMMAND_ZHTW}
-                OUTPUT ${PROCESS_OUTPUT_ZHTW}
+                DEPENDS ${PROCESS_OUTPUT_ZHTW}
             )
             add_dependencies(man man_zhtw_${MAN_PAGE_NAME}_build)
-            add_dependencies(man_zhtw_${MAN_PAGE_NAME}_build man_zhtw_${MAN_PAGE_NAME}_dir)
         endif (ENABLE_ZHTW)
 
     endforeach ()
