@@ -6,6 +6,14 @@
 	* CMakeLists.txt: Add option for installng procps-ng man pages.
 	* Bump version string to 1.6.4.1.
 
+2023-05-11  Wu Zhenyu <32936898+Freed-Wu@users.noreply.github.com>
+
+	* Fix CMakeLists.txt.
+
+2023-01-28  Eric Li <xiaoyili@andrew.cmu.edu>
+
+	* Fix escape of "\"" in ascii(7).
+
 2022-12-09  Boyuan Yang <073plan@gmail.com>
 
 	* CMakeLists.txt: Migrate build system to CMake.
