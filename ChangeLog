@@ -1,3 +1,11 @@
+2024-12-20  Boyuan Yang <073plan@gmail.com>
+
+	* CMakeLists.txt: Exclude procps-ng man pages by default for procps-ng
+	4.0.5 compatibilty. For more details, see
+	https://groups.google.com/g/i18n-zh/c/AYHJNyutI9Y/m/bt9QDdsUBAAJ
+	* CMakeLists.txt: Add option for installng procps-ng man pages.
+	* Bump version string to 1.6.4.1.
+
 2022-12-09  Boyuan Yang <073plan@gmail.com>
 
 	* CMakeLists.txt: Migrate build system to CMake.

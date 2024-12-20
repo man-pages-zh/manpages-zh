@@ -4,13 +4,21 @@ cmake_minimum_required(VERSION 3.12)
 # SPDX-License-Identifier: CC0-1.0 OR BSD-2-Clause
 
 include(GNUInstallDirs)
-project(manpages-zh VERSION 1.6.4.0 HOMEPAGE_URL "https://github.com/man-pages-zh/manpages-zh")
+project(manpages-zh VERSION 1.6.4.1 HOMEPAGE_URL "https://github.com/man-pages-zh/manpages-zh")
 
 option(ENABLE_APPEND_COLOPHON "Append translation information to output man pages" ON)
 option(ENABLE_ZHCN "Enable installing zh_CN man pages" ON)
 option(ENABLE_ZHTW "Enable installing zh_TW man pages" ON)
+option(ENABLE_PROCPS_NG_MANPAGES "Enable installing procps-ng man pages" OFF)
 
 set(EXCLUDED_MANPAGES "" CACHE STRING "Man pages that are not installed")
+
+if (NOT ENABLE_PROCPS_NG_MANPAGES)
+    SET(PROCPS_NG_EXCLUDE "free.1;pgrep.1;pidof.1;pmap.1;ps.1;pwdx.1;slabtop.1;tload.1;sysctl.8;vmstat.8;uptime.1;w.1;watch.1;top.1;procps.3;procps_misc.3;procps_pids.3;sysctl.conf.5")
+    list(APPEND EXCLUDED_MANPAGES ${PROCPS_NG_EXCLUDE})
+endif()
+
+list(REMOVE_DUPLICATES EXCLUDED_MANPAGES)
 
 list(LENGTH EXCLUDED_MANPAGES EXCLUDED_MANPAGES_SIZE)
 if (EXCLUDED_MANPAGES_SIZE GREATER 0)
