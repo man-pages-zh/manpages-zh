@@ -10,7 +10,7 @@ Copyright:
  2000-2004, CMPP Project <http://cmpp.linuxforum.net>
  2015-2017 Darcy Shen <sadhen@zoho.com>
  2015-2020 Boyuan Yang <byang@debian.org>
-License: GFDL-1.2+
+License: GFDL-1.2-or-later
 
 Files: utils/*
 Copyright:
@@ -27,7 +27,7 @@ Files:
 Copyright:
  Albert Cahalan
  Michael K. Johnson
-License: GPL-2.0
+License: GPL-2.0-only
 Comment: Files from procps-ng.
 
 Files:
@@ -48,15 +48,22 @@ Files:
 Copyright:
  2003 Davide Libenzi <davidel@xmailserver.org>
  2021 Phi-Li (translator)
-License: GPL-2.0+
+License: GPL-2.0-or-later
 
-License: GPL-2.0
+Files:
+ src/man7/environ.7
+Copyright:
+ 1993 Michael Haardt (michael@moria.de)
+ 1997 Andries Brouwer (aeb@cwi.nl)
+License: GPL-2.0-or-later
+
+License: GPL-2.0-only
  Licensed under version 2 of the GNU General Public License.
  .
  You should have received a copy of the GNU General Public License
  along with this program. If not, see <https://www.gnu.org/licenses/>
 
-License: GPL-2.0+
+License: GPL-2.0-or-later
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 2 of the License, or
@@ -113,7 +120,7 @@ License: permissive-gzip
  except that this permission notice may be stated in a translation approved
  by the Foundation.
 
-License: GFDL-1.2+
+License: GFDL-1.2-or-later
  Permission is granted to copy, distribute and/or modify this document
  under the terms of the GNU Free Documentation License, Version 1.2
  or any later version published by the Free Software Foundation;

@@ -2,6 +2,7 @@
 
 	* environ(7): Retranslate using upstream man page from Linux man-pages
 	6.9.1.
+	* COPYRIGHT: Update information and use more SPDX short license name.
 	* Bump version string to 1.6.4.2.
 
 2024-12-20  Boyuan Yang <073plan@gmail.com>
