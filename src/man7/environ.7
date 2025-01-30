@@ -1,143 +1,149 @@
 .\" Copyright (c) 1993 Michael Haardt (michael@moria.de),
-.\" Fri Apr 2 11:32:09 MET DST 1993
+.\"   Fri Apr  2 11:32:09 MET DST 1993
 .\" and Andries Brouwer (aeb@cwi.nl), Fri Feb 14 21:47:50 1997.
 .\"
-.\" This is free documentation; you can redistribute it and/or
-.\" modify it under the terms of the GNU General Public License as
-.\" published by the Free Software Foundation; either version 2 of
-.\" the License, or (at your option) any later version.
+.\" SPDX-License-Identifier: GPL-2.0-or-later
 .\"
-.\" The GNU General Public License's references to "object code"
-.\" and "executables" are to be interpreted as the output of any
-.\" document formatting or typesetting system, including
-.\" intermediate and printed output.
-.\"
-.\" This manual is distributed in the hope that it will be useful,
-.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
-.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-.\" GNU General Public License for more details.
-.\"
-.\" You should have received a copy of the GNU General Public
-.\" License along with this manual; if not, write to the Free
-.\" Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111,
-.\" USA.
-.\" Chinese Version Copyright mhss, www.linuxforum.net, 2000
-.\" 
 .\" Modified Sun Jul 25 10:45:30 1993 by Rik Faith (faith@cs.unc.edu)
 .\" Modified Sun Jul 21 21:25:26 1996 by Andries Brouwer (aeb@cwi.nl)
 .\" Modified Mon Oct 21 17:47:19 1996 by Eric S. Raymond (esr@thyrsus.com)
-.\" Modified Wed Aug 27 20:28:58 1997 by Nicol醩 Lichtmaier 
+.\" Modified Wed Aug 27 20:28:58 1997 by Nicolás Lichtmaier (nick@debian.org)
 .\" Modified Mon Sep 21 00:00:26 1998 by Andries Brouwer (aeb@cwi.nl)
-.TH ENVIRON 7 1998-09-21 "Linux Programmer's Manual"
-.SH NAME
-environ \- 用户环境(变量)
-.SH SYNOPSIS 总览
-.ad l
-.nf 
-extern char **environ;
-.br
+.\" Modified Wed Jan 24 06:37:24 2001 by Eric S. Raymond (esr@thyrsus.com)
+.\" Modified Thu Dec 13 23:53:27 2001 by Martin Schulze <joey@infodrom.org>
+.\"
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH environ 7 2024\-06\-15 "Linux 手册页 6.9.1" 
+.SH 名称
+environ \- 用户环境
+.SH 概述
+.nf
+\fBextern char **\fP\fIenviron\fP\fB;\fP
 .fi
-.ad b
-.SH DESCRIPTION 描述
-变量 environ 指向的是一个叫 'environment'(环境)的字符串数组
-(这个变量必须在用户程序中声明，但是在使用 libc4 或 libc5 以
-及使用 glibc 并且定义了 _GNU_SOURCE 的情况下 ，它是在头文件
-unistd.h 中声明的)。对于一个进程，这个字符串的数组是通过开
-始进程的 exec(3) 调用来得到，习惯上，这些字符串的格式是'name=value'
-(名称=值)。常用的例子是：
-.TP
-.B USER
-登录用户的名字(被一些从 BSD 派生来程序所使用)。
-.TP
-.B LOGNAME
-登录用户的名字(被一些从 System-V 派生来程序所使用)。
-.TP
-.B HOME
-用户的登录目录，被login(1)按口令文件 passwd(5) 设置。
-.TP
-.B LANG
-当不被 LC_ALL 或更特殊的环境变量所忽略的时候，是用
-于地域分类的地域名。
-.TP
-.B PATH
-预先设定的目录前缀的序列，sh(1) 和许多程序可借此查找路径
-名不完全的文件。前缀由':'分隔。(类似的，有一些 shell
-用 CDPATH 查找位于不同目录的命令，以及用 MANPATH 找
-手册页等等。)
-.TP
-.B PWD
-当前的工作路径。被一些 shell 设置。
-.TP
-.B SHELL
-用户的登录 shell 的文件名。
-.TP
-.B TERM
-用于准备输出的终端类型。 
-.TP
-.B PAGER
-用户指定的显示文本文件的工具。
-.TP
-.B EDITOR/VISUAL
-用户指定的编辑文本文件的工具。
-.PP
-更多的名字可以通过和在 sh(1) 中的 export 命令和 'name=value'，或 csh(1) 中
-的 setenv 命令设置。参数也可以在
-执行 exec(2) 的时候被放置在环境中。一个 C 程序可以使用函数
-.BR getenv(3) 、
-.BR putenv(3) 、
-.BR setenv(3) 
-和 
-.BR unsetenv(3)
-来操纵自身的环境。
-
-注意许多程序和库例程的行为受特定的环境变量的存在和值的影响。
-随便的搜集一下就有：
-.LP
-环境变量 LANG、LANGUAGE、NLSPATH、LOCPATH、LC_ALL、
-LC_MESSAGES 等影响地域的处理。
-.LP
-TMPDIR 影响 tmpnam(3) 生成名字的路径名前缀和其他一些例程，
-sort(1) 和其他程序用的临时文件目录等等。
-.LP 
-LD_LIBRARY_PATH、LD_PRELOAD 和其他 LD_* 变量影响动态 
-(装载器/连接器)的行为。
-.LP
-POSIXLY_CORRECT 使特定的程序和库例程遵循 POSIX 规定。 
-.LP
-MALLOC_* 变量影响 malloc(3) 的行为。
-.LP
-HOSTALIASES 变量给出包含 gethostbyname(3) 用的别名的文件的
-文件名。
-.LP
-TZ 和 TZDIR 给出时区信息。
-.LP
-TERMCAP 给出给定终端的窗口大小(或给出包含这种信息的文件的
-文件名)。
-.LP
-等等，还有很多。
-
-这里有一个明显的安全风险。不止一个系统命令曾经被一个使用了一
-个不寻常的
-.BR IFS " 或 " LD_LIBRARY_PATH
-变量值的用户诱入骗局中。
-
-
-.SH SEE ALSO 又见
-.BR login(1),
-.BR sh(1),
-.BR bash(1),
-.BR csh(1),
-.BR tcsh(1),
-.BR execve(2),
-.BR exec(3), 
-.BR getenv(3),
-.BR putenv(3),
-.BR setenv(3),
-.BR unsetenv(3).
-
-.SH "[中文版维护人]"
-.B mhss <jijingzhisheng@up369.com>
-.SH "[中文版最新更新]"
-.B 2000/11/26
-.SH "《中国linux论坛man手册页翻译计划》:"
-.BI http://cmpp.linuxforum.net
+.SH 描述
+变量 \fIenviron\fP 指向一个存储指针的数组，这些指针指向被称为“环境（environment）”的字符串。数组中最后一个指针的值为
+NULL。该字符串数组在新程序启动时被 \fBexecve\fP(2) 调用提供给进程。当子进程被 \fBfork\fP(2)
+创建时，它继承其父进程环境的一份\fI副本\fP。
+.P
+习惯上约定在 \fIenviron\fP
+中的字符串有类似“\fI名称\fP\fB=\fP\fI值\fP”的形式。其中的名称是大小写敏感的，且不能包含字符“\fB=\fP”。其中的值可以为任何字符串可以表示的文本。名称和值不能包含内嵌的空字节字符（\[aq]\[rs]0\[aq]），以此避免其被误认为字符串终止位置。
+.P
+环境变量可由 \fBsh\fP(1) 中的 \fIexport\fP 命令在 shell 的环境中被设定，或者在使用 \fBcsh\fP(1) 时使用 \fIsetenv\fP
+命令。
+.P
+对 shell 来说，其初始的环境相关变量可经由多种方式被填充，如在使用了 \fBpam\fP(8) 的系统上，\fBpam_env\fP(8)
+会对所有用户在登录时启用 \fI/etc/environment\fP 中的定义。除此之外，许多 shell 初始化脚本，如系统层级的
+\fI/etc/profile\fP 脚本和各个用户的初始化脚本，可能包含一些会向 shell 的环境中添加变量的命令；请参考您使用的 shell
+的手册页了解详细信息。
+.P
+Bourne 风格的 shell 支持下面的语法
+.P
+.in +4n
+.EX
+名称=值 命令
+.EE
+.in
+.P
+它可被用来仅在执行 \fI命令\fP 时创建对应的环境变量定义。在 \fI命令\fP 之前，可以存在多个变量定义，其间使用空格进行分隔。
+.P
+参数还可以在调用 \fBexec\fP(3)时被放置于环境之中。C 程序可以使用诸如 \fBgetenv\fP(3), \fBputenv\fP(3),
+\fBsetenv\fP(3) 和 \fBunsetenv\fP(3) 的函数操纵其环境。
+.P
+本文的下述部分列出了系统上常见的环境变量。这个列表并不完整，且仅包含普通用户在日常使用中常见的变量。特定程序或软件库函数所使用的环境变量通常会在其对应的手册页中的“环境”一节中进行描述。
+.TP 
+\fBUSER\fP
+已登录用户的名称（被某些 BSD 衍生的程序所使用）。其在登录时被设置，请见下文的备注一节。
+.TP 
+\fBLOGNAME\fP
+已登录用户的名称（被某些 System\-V 衍生的程序所使用）。其在登录时被设置，请见下文的备注一节。
+.TP 
+\fBHOME\fP
+用户登录时的目录。其在登录时被设置，请见下文的备注一节。
+.TP 
+\fBLANG\fP
+用于语言和区域设置类别的名称，它在未被 \fBLC_ALL\fP 或更具体的环境变量，如 \fBLC_COLLATE\fP, \fBLC_CTYPE\fP,
+\fBLC_MESSAGES\fP, \fBLC_MONETARY\fP, \fBLC_NUMERIC\fP 和 \fBLC_TIME\fP 所覆盖时生效（请参见
+\fBlocale\fP(7) 以了解 \fBLC_*\fP 环境变量的具体细节）。
+.TP 
+\fBPATH\fP
+它是一系列目录前缀，可被 \fBsh\fP(1)
+和许多其他程序所使用以搜索由简单的文件名（即不含有斜线的路径名）所指定的可执行文件。各个前缀之间被冒号（\fB:\fP）所分隔。整个前缀列表会被从前到后进行搜索，程序会检查给定路径名在附加前缀、斜线和文件名之后的路径是否存在，直到找到一个符合条件的可执行文件为止。
+.IP
+还存在一个遗留的特性：如果前缀长度为零（即由两个相邻的冒号组成，或者有起始或终止位置的冒号存在），该前缀会被解释为指定当前工作目录。然而，当前已不推荐使用该特性，且
+POSIX 认为一个符合标准的应用程序应当使用显式的路径名（如 \fI.\fP）来指定当前工作目录。
+.IP
+类似 \fBPATH\fP，还存在 \fBCDPATH\fP 会被某些 shell 用来寻找更改目录指令的目标目录，以及被 \fBman\fP(1) 所使用寻找手册页的
+\fBMANPATH\fP，等等。
+.TP 
+\fBPWD\fP
+当前工作目录的绝对路径。它的组成部分必须被规范化（即不可出现 \fI.\&\fP 或 \fI..\&\fP 的路径部分）。
+.TP 
+\fBSHELL\fP
+用户登录 shell 的绝对路径名。其在登录时被设置，请见下文的备注一节。
+.TP 
+\fBTERM\fP
+输出应当兼容的终端类型。
+.TP 
+\fBPAGER\fP
+用户偏好的显示文本文件的实用工具。可被设置为任何 \fIsh\ \-c\fP 命令可接受的命令字符串操作符。如果 \fBPAGER\fP
+的值为空或未被设置，则启动分页器的应用程序会默认选择一个程序，如 \fBless\fP(1) 或 \fBmore\fP(1)。
+.TP 
+\fBEDITOR\fP/\fBVISUAL\fP
+.\" .TP
+.\" .B BROWSER
+.\" The user's preferred utility to browse URLs. Sequence of colon-separated
+.\" browser commands. See http://www.catb.org/\[ti]esr/BROWSER/ .
+用户偏好使用的编辑文本文件的工具。可被设置为任何 \fIsh\ \-c\fP 命令可接受的命令字符串操作符。
+.P
+请注意，许多程序和软件库例程的行为都会受到特定环境变量存在与否及其取值的影响。下面给出一些例子：
+.IP \[bu] 3
+\fBLANG\fP, \fBLANGUAGE\fP, \fBNLSPATH\fP, \fBLOCPATH\fP, \fBLC_ALL\fP, \fBLC_MESSAGES\fP
+等等变量会影响语言和区域设置的处理；请参见 \fBcatopen\fP(3), \fBgettext\fP(3) 和 \fBlocale\fP(7)。
+.IP \[bu]
+\fBTMPDIR\fP 影响由 \fBtempnam\fP(3) 和其他例程创建的路径名称的前缀，以及由 \fBsort\fP(1) 和其他程序所使用的临时目录名。
+.IP \[bu]
+\fBLD_LIBRARY_PATH\fP, \fBLD_PRELOAD\fP 和其他 \fBLD_*\fP 变量会影响动态加载器/链接器的行为。请参见
+\fBld.so\fP(8)。
+.IP \[bu]
+\fBPOSIXLY_CORRECT\fP 使得特定的程序和软件库例程遵循 POSIX 所指定的行为。
+.IP \[bu]
+\fBmalloc\fP(3) 的行为受到 \fBMALLOC_*\fP 变量的影响。
+.IP \[bu]
+\fBHOSTALIASES\fP 变量给出包含 \fBgethostbyname\fP(3) 将要使用的主机别名的文件的名称。
+.IP \[bu]
+\fBTZ\fP 和 \fBTZDIR\fP 给出 \fBtzset\fP(3) 所使用的时区信息，并涉及诸如 \fBctime\fP(3), \fBlocaltime\fP(3),
+\fBmktime\fP(3), \fBstrftime\fP(3) 等函数。另请参见 \fBtzselect\fP(8)。
+.IP \[bu]
+\fBTERMCAP\fP 提供如何处理给定终端的相关信息（或者给出包含这些信息的文件的文件名）
+.IP \[bu]
+\fBCOLUMNS\fP 和 \fBLINES\fP 会告知应用程序窗口大小信息，它可能会覆盖实际大小的配置。
+.IP \[bu]
+\fBPRINTER\fP 或 \fBLPDEST\fP 可能指定要使用的打印机。请见 \fBlpr\fP(1)。
+.SH 备注
+历史上以及标准上，\fIenviron\fP 必须被用户程序所声明。然而，一个现存的不标准的方便程序员工作的方法是将 \fIenviron\fP 声明在
+\fI<unistd.h>\fP 头文件中，前提是 \fB_GNU_SOURCE\fP 功能测试宏已被定义（参见
+\fBfeature_test_macros\fP(7)）。
+.P
+\fBprctl\fP(2) 中的 \fBPR_SET_MM_ENV_START\fP 和 \fBPR_SET_MM_ENV_END\fP
+操作可被用来控制进程环境的位置。
+.P
+\fBHOME\fP, \fBLOGNAME\fP, \fBSHELL\fP 和 \fBUSER\fP 变量会在用户经由会话管理界面被变更时被设置。者通常是经由类似
+\fBlogin\fP(1) 的程序以及用户数据库（例如 \fBpasswd\fP(5)）所完成的。（使用 \fBsu\fP(1) 切换到 root
+用户可能导致混合的环境变量，其中 \fBLOGNAME\fP 和 \fBUSER\fP 被保留为旧有用户的值；参见 \fBsu\fP(1) 手册页。）
+.SH 缺陷
+很显然，这个机制有安全风险。许多系统命令可被用户指定的不同寻常的 \fBIFS\fP 或 \fBLD_LIBRARY_PATH\fP 的值所欺骗。
+.P
+还存在命名空间污染的风险。如 \fImake\fP 和 \fIautoconf\fP
+等程序允许环境中具有和实用工具相同命名（但全大写）的变量覆盖默认所使用的工具路径。因此，用户可以使用 \fBCC\fP 来选择想要使用的 C
+编译器（类似地，还有 \fBMAKE\fP, \fBAR\fP, \fBAS\fP, \fBFC\fP, \fBLD\fP, \fBLEX\fP, \fBRM\fP, \fBYACC\fP
+等等）。然而，在某些传统的使用场景中这些环境变量还会被赋值为程序选项而非路径名，例如 \fBMORE\fP 和
+\fBLESS\fP。这些用法被认为是错误的，应当在新程序中避免。
+.SH 参见
+\fBbash\fP(1), \fBcsh\fP(1), \fBenv\fP(1), \fBlogin\fP(1), \fBprintenv\fP(1), \fBsh\fP(1),
+\fBsu\fP(1), \fBtcsh\fP(1), \fBexecve\fP(2), \fBclearenv\fP(3), \fBexec\fP(3),
+\fBgetenv\fP(3), \fBputenv\fP(3), \fBsetenv\fP(3), \fBunsetenv\fP(3), \fBlocale\fP(7),
+\fBld.so\fP(8), \fBpam_env\fP(8)
