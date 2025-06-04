@@ -1,3 +1,7 @@
+2025-06-05  Boyuan Yang <073plan@gmail.com>
+
+	* Full translation of xargs(1) from findutils v4.10.0.
+
 2025-01-30  Boyuan Yang <073plan@gmail.com>
 
 	* environ(7): Retranslate using upstream man page from Linux man-pages

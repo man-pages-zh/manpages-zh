@@ -1,109 +1,246 @@
-.TH XARGS 1 \" -*- nroff -*-
-
-.SH NAME
-xargs \- 从标准输入重建并执行命令行
-
-.SH "总览 (SYNOPSIS)"
-.B xargs
-[\-0prtx] [\-e[eof-str]] [\-i[replace-str]] [\-l[max-lines]]
-[\-n max-args] [\-s max-chars] [\-P max-procs] [\-\-null] [\-\-eof[=eof-str]]
-[\-\-replace[=replace-str]] [\-\-max-lines[=max-lines]] [\-\-interactive]
-[\-\-max-chars=max-chars] [\-\-verbose] [\-\-exit] [\-\-max-procs=max-procs]
-[\-\-max-args=max-args] [\-\-no-run-if-empty] [\-\-version] [\-\-help]
-[command [initial-arguments]]
-
-.SH "描述 (DESCRIPTION)"
-此 手册页 描述 GNU 版本 的
-.BR xargs .
-.B xargs
-从 标准 输入 读入 参数. 参数 用 空格(可以 用 双引号 单引号 或 反斜杠 转意) 或者 回车 隔开.
-然后 一次 或者 多次 执行 命令
-.I command
-(默认 是 /bin/echo), 其 参数 是
-.I initial-arguments
-后面 再 加上 从 标准 输入 读入 的 参数. 标准 输入中 的 空格 被 忽略.
+.\" -*- nroff -*-
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH XARGS 1   
+.SH 名称
+xargs \- 从标准输入构建并执行命令行
+.SH 概述
+\fBxargs\fP
+.nh
+[\fI选项\fP] [\fI命令\fP [\fI初始参数\fP]]
+.hy
+.
+.SH 描述
+本手册页记载了 GNU 版本的 \fBxargs\fP。\fBxargs\fP
+从标准输入读取由空白字符或换行符分隔的条目（如需在条目中保留空格，可以使用单引号、双引号或者反斜线转义），并且使用给出的 \fI初始参数\fP
+以及后续从标准输入读取的条目作为参数来执行给定的 \fI命令\fP（默认执行 \fIecho\fP）一次或多次。标准输入中的空行将被忽略。
 .P
-.B xargs
-退出 可以有 如下 状态:
+程序持续构建给定 \fI命令\fP 的命令行直到遇到了系统定义的限制为止（除非使用了 \fB\-n\fP 和 \fB\-L\fP 选项）。指定的 \fI命令\fP
+会被调用多次，直到用尽输入条目列表项为止。通常情况下，调用 \fI命令\fP
+的次数要远少于输入条目项的数量。这通常可以带来十分显著的性能提升。某些命令也可并行执行；请参见 \fB\-P\fP选项。
+.P
+因 Unix 文件名可包含空白和换行符，这样的默认行为通常会出现问题；含有空白和/或换行符的文件名无法被 \fBxargs\fP
+正确处理。在这些场景下，最好应使用 \fB\-0\fP 选项来避免这样的问题。使用该选项时，您应确保生成 \fBxargs\fP
+的输入的程序同样使用空字符作为分隔符。例如如果使用了 GNU \fBfind\fP，则应当选用其 \fB\-print0\fP 选项。
+.P
+如果任何对命令的调用返回了 255 状态码，\fBxargs\fP 会立刻停止而不再读取更多的输入数据。该情况发生时程序会在标准错误打印错误信息。
+.
+.SH 选项
+.TP 
+\fB\-0, \-\-null\fP
+输入条目以空字符结束，而不是以空白结束，引号和反斜杠也不特殊（每个字符都按字面意思理解）。禁用文件结束字符串（EOF），该字符串与其他参数按相同方法处理。当输入项可能包含空白、引号或反斜线时，该选项非常有用。GNU
+find \-print0 选项产生的输入适合这种模式。
+
+.TP 
+\fB\-a \fP\fI文件\fP\fB, \-\-arg\-file=\fP\fI文件\fP
+从给定\fIfile\fP而不是标准输入读取条目。如果使用该选项，运行命令时标准输入将保持不变。否则，标准输入将从 \fI/dev/null\fP 重定向。
+
+.TP 
+\fB\-\-delimiter=\fP\fI分隔符\fP\fB, \-d\fP\fI 分隔符\fP
+输入条目由指定字符分隔而结束。所指定的分隔符可能是单个字符、类似 \fB\en\fP 的 C
+风格字符转义序列、或者八进制/十六进制转义代码。八进制和十六进制转义代码和 \fBprintf\fP
+命令所使用的格式一致。不支持多字节字符。处理输入时，引号和反斜线并不会被特殊处理；输入中的每个字符都被按照其字面样式进行处理。使用 \fB\-d\fP
+选项会禁用所有文件结束字符串，令其与其它参数按照相同方式处理。在输入仅包含用换行符分隔的条目时可以使用该选项；但如果可能的话，设计让程序使用
+\fB\-\-null\fP 选项几乎总是更好的方案。
+
+.TP 
+\fB\-E\fP\fI eof\-str\fP
+将文件结束字符串设置为 \fIeof\-str\fP。如果该文件结束字符串作为一行输入出现，则其后的输入内容均会被忽略。如果既未使用 \fB\-E\fP 也未使用
+\fB\-e\fP，则不使用任何文件结束字符串。
+.TP 
+\fB\-e\fP[\fIeof\-str\fP], \fB\-\-eof\fP[\fI=eof\-str\fP]
+该选项是 \fB\-E\fP 选项的同义词。请使用 \fB\-E\fP ，因为它符合 POSIX 标准，而该选项不符合 POSIX 标准。如果省略 \fIeof\-str\fP
+，则没有文件结束字符串。如果既没有使用 \fB\-E\fP 也没有使用 \fB\-e\fP，则不会使用文件结尾字符串。
+.TP 
+\fB\-I\fP\fI 替换占位字符串\fP
+将给定初始参数中出现的\fI替换占位字符串\fP替换为从标准输入中读取得到的字符串。另外，未被引号包括的空白字符不会被视为输入项目的分隔符；此时分隔符是换行符。该选项隐含启用了
+\fB\-x\fP 和 \fB\-L\fP 1 选项。
+.TP 
+\fB\-i\fP[\fI替换占位字符串\fP], \fB\-\-replace\fP[\fI=替换占位字符串\fP]
+如果给出了\fI替换占位字符串\fP，则该选项和 \fB\-I\fP\fI替换占位字符串\fP同义。如果缺失了\fI替换占位字符串\fP，则其效果等同于
+\fB\-I\fP{}。\fB\-i\fP 已被弃用，请改用 \fB\-I\fP。
+.TP 
+\fB\-L\fP\fI 最大行数\fP
+每个命令行使用至多\fI最大行数\fP个非空输入行。行末尾的空白字符会使得下一行成为上一行逻辑上的延续。隐含启用 \fB\-x\fP。
+.TP 
+\fB\-l\fP[\fI最大行数\fP], \fB\-\-max\-lines\fP[=\fI最大行数\fP]
+和 \fB\-L\fP 选项同义。但与 \fB\-L\fP 不同，此时\fI最大行数\fP的参数是可选的。如果未指定\fI最大行数\fP，则默认取值为 1。\fB\-l\fP
+选项已被弃用，因为 POSIX 标准指定了使用 \fB\-L\fP 选项。
+.TP 
+\fB\-n\fP\fI max\-args\fP, \fB\-\-max\-args\fP=\fImax\-args\fP
+每条命令行最多使用 \fImax\-args\fP 个参数。如果参数总大小超过限制（参见 \fB\-s\fP 选项），则实际使用的参数数量可能少于
+\fImax\-args\fP，除非指定了 \fB\-x\fP 选项；在这种情况下，\fBxargs\fP 将直接退出。
+.TP 
+\fB\-P\fP\fI max\-procs\fP, \fB\-\-max\-procs\fP=\fImax\-procs\fP
+同时最多运行 \fImax\-procs\fP 个进程；默认值为 1。如果 \fImax\-procs\fP 为 0，则 \fBxargs\fP
+会尽可能多地同时运行进程。应当配合 \fB\-n\fP 选项或 \fB\-L\fP 选项与 \fB\-P\fP 一起使用；否则很可能只执行一次 exec。在 \fBxargs\fP
+运行期间，你可以向其进程发送 SIGUSR1 信号来增加并行运行的命令数，或发送 SIGUSR2
+信号来减少该数量。增加数量时不能超过实现定义的上限（可通过 \-\-show\-limits 查看），减少数量时不能低于 1。\fBxargs\fP
+永远不会主动终止其启动的命令；当请求减少并发数时，它只会在已有的多个命令终止之后才启动新的。\fBxargs\fP
+在退出前总是会等待所有子进程结束（但有例外，请参见本文档“缺陷”一节）。
+
+如果未使用 \fB\-P\fP 选项，\fBxargs\fP 将不会处理 SIGUSR1 和 SIGUSR2 信号，这意味着这些信号将会终止该程序（除非在启动
+\fBxargs\fP 之前，这些信号已在父进程中被屏蔽）。
+
+\fB请注意\fP，被调用的进程需自行负责正确管理对共享资源的并发访问。例如，如果多个进程同时尝试向标准输出打印内容，除非它们以某种方式进行协作防止冲突，否则输出的顺序将无法确定（并且很可能会混杂在一起）。采用某种锁机制是一种防止此类问题的方法。一般而言，使用锁机制有助于确保输出正确，但会降低性能。如果你不希望承受性能差异的影响，可以让每个进程输出到不同的文件，或者以其他方式使用不同的资源。
+.TP 
+\fB\-o, \-\-open\-tty\fP
+在执行命令之前，在子进程中将标准输入重新打开为 \fI/dev/tty\fP。如果你希望 \fBxargs\fP 运行一个交互式应用程序，这将非常有用。
+.TP 
+\fB\-p, \-\-interactive\fP
+在执行每条命令行之前提示用户确认，并从终端读取一行输入。仅当用户的响应以“y”或“Y”开头时才执行该命令行。此选项隐含启用 \fB\-t\fP。
+.TP 
+\fB\-\-process\-slot\-var\fP=\fIname\fP
+将环境变量 \fIname\fP 设置为每个正在运行的子进程中的唯一值。一旦子进程退出，该值会被重新使用。例如，这可以用于实现一个基本的负载分配方案。
+.TP 
+\fB\-r, \-\-no\-run\-if\-empty\fP
+如果标准输入中不包含任何非空白字符，则不执行命令。通常情况下，即使没有输入，命令也会执行一次。此选项是 GNU 扩展功能。
+.TP 
+\fB\-s\fP\fI max\-chars\fP, \fB\-\-max\-chars\fP\fI=max\-chars\fP
+每条命令行最多使用 \fImax\-chars\fP 个字符，包括命令本身、初始参数以及每个参数字符串末尾的空字符。最大允许值依赖于系统，其计算方式为：exec
+的参数长度限制，减去环境变量所占空间，再减去 2048 字节的保留空间。如果计算出的值超过 128\ KiB，则默认值为 128\ KiB；否则，默认值为该最大值。其中 1\ KiB 等于 1024 字节。\fBxargs\fP 会自动适应更严格的限制。
+.TP 
+\fB\-\-show\-limits\fP
+显示操作系统施加的命令行长度限制、\fBxargs\fP 所选择的缓冲区大小，以及 \fB\-s\fP 选项所设定的限制。如果你不希望 \fBxargs\fP
+实际执行任何操作，可以将输入通过管道重定向为来自 \fI/dev/null\fP（并可考虑加上 \fB\-\-no\-run\-if\-empty\fP 选项）。
+.TP 
+\fB\-t, \-\-verbose\fP
+在执行命令之前，将该命令行打印到标准错误输出上。
+.TP 
+\fB\-x, \-\-exit\fP
+如果大小超出限制（参见 \fB\-s\fP 选项），则退出程序。
+.TP 
+\fB\-\-\fP
+用于标记选项列表的结束。其后的参数（如果有）即使以 \fI\-\fP 开头，也会被当作操作数处理。例如，\fBxargs \-\- \-\-help\fP 会运行
+\fIPATH\fP 中名为 \fI\-\-help\fP 的命令，而不是打印用法说明；\fBxargs \-\- \-\-mycommand\fP 会执行命令
+\fI\-\-mycommand\fP，而不会将其视为无法识别的选项而报错。
+.TP 
+\fB\-\-help\fP
+打印 \fBxargs\fP 的选项摘要并退出。
+.TP 
+\fB\-\-version\fP
+打印 \fBxargs\fP 的版本号并退出。
+.PP
+选项 \fB\-\-max\-lines\fP（\fB\-L\fP、\fB\-l\fP）、\fB\-\-replace\fP（\fB\-I\fP、\fB\-i\fP）以及
+\fB\-\-max\-args\fP（\fB\-n\fP）是互斥的。如果同时指定了其中多个选项，\fBxargs\fP
+通常会采用命令行中最后指定的选项，也就是说，之前指定的冲突选项会被重置为默认值。此外，\fBxargs\fP 会在 \fIstderr\fP
+上发出警告信息。此规则有一个例外：当使用 \fB\-\-replace\fP 或其别名 \fB\-I\fP、\fB\-i\fP 后，若再次指定特殊值 \fI1\fP（即
+\&'\fB\-n\fP\fI1\fP'），该值将被忽略，因为它实际上并不构成冲突。
+
+.
+.SH 示例
 .nf
-0 如果 成功
-123 如果 任何 一个 被 调用 的 命令 command 退出 状态 为 1-125
-124 如果 命令 command 退出 状态 为 255
-125 如果 命令 command 被 信号 终止
-126 如果 不能 执行 命令 command
-127 如果 命令 command 没有 找到
-1 如果 发生 其它 错误
+\fBfind /tmp \-name core \-type f \-print | xargs /bin/rm \-f\fP
+
 .fi
+在 \fB/tmp\fP 目录中或其子目录下查找名为 \fBcore\fP 的文件并将其删除。请注意，如果有任何文件名中包含换行符或空格，该操作可能无法正确执行。
+.P
+\fBfind /tmp \-name core \-type f \-print0 | xargs \-0 /bin/rm \-f\fP
 
-.SS "选项 (OPTIONS)"
-.TP
-.I "\-\-null, \-0"
-输入 的 文件名 以 null 字符 结尾, 而不是 空格, 引号 和 反斜杠 并不 特殊 处理
-(所有 字符 都以 字面 意思 解释). 禁止 文件尾 字符串, 当 另一个 参数 处理. 当
-参数 含有 空格, 引号, 反斜杠 时 很方便. GNU find 的 \-print0 选项 产生 适合
-这种 模式 的 输出.
-.TP
-.I "\-\-eof[=eof-str], \-e[eof-str]"
-把 文件尾 字符串 设置 成\fIeof-str\fR. 如果 文件尾 字符串 出现 在 输入中 的
-某行, 余下的 行 将被 忽略. 如果 没有 \fIeof-str\fR , 就 没有 文件尾 字符串.
-如果 没有 这个 选项, 文件尾 字符串 默认 是 "_".
-.TP
-.I "\-\-help"
-显示
-.B xargs
-的 选项, 然后 退出.
-.TP
-.I "\-\-replace[=replace-str], \-i[replace-str]"
-把 initial-arguments 里的 所有 \fIreplace-str\fR 替换为 从 标准 输入 里 读入
-的 名称. 同时, 没有 用 引号 括起来 的 空格 不会 结束 参数. 如果 没有
-\fIreplace-str\fR , 它 默认为 "{}" (同 `find \-exec' 一样). 此 选项 隐含有
-\fI\-x\fP 和 \fI\-l 1\fP 选项.
-.TP
-.I "\-\-max-lines[=max-lines], -l[max-lines]"
-每个 命令行 最多 可以 有 \fImax-lines\fR 行 非空格 输入; \fImax-lines\fR 默认
-是 1.  后面 跟着 的 空格 会使 后面 一行 逻辑 上 是 一个 输入行 的 继续. 此 选项
-隐含有 \fI\-x\fR 选项.
-.TP
-.I "\-\-max-args=max-args, \-n max-args"
-每个 命令行 最多 可以 有 \fImax-args\fR 个 参数. 如果 大小 超出了 (见 \-s 选项)
-那么 参数 个数 将 会用 比 \fImax-args\fR 小; 除非 用了 \-x 选项, 那么
-\fBxargs\fR 将 退出.
-.TP
-.I "\-\-interactive, \-p"
-提示 用户 是否 运行 每个 命令行, 然后 从 终端 读入 一行. 只有 当 此行 以 'y'
-或 'Y' 开头 才会 运行 此 命令行. 此 选项 隐含有 \fI\-t\fR 选项.
-.TP
-.I "\-\-no-run-if-empty, \-r"
-如果 标准 输入 不 包含 任何 非空格, 将 不运行 命令. 一般 情况下, 就算 没有
-输入, 命令 也会 运行 一次.
-.TP
-.I "\-\-max-chars=max-chars, \-s max-chars"
-每个 命令行 最多 可以 有 \fImax-chars\fR 个 字符, 包括 命令 和 初始 参数, 还
-包括 参数 后面 结尾 的 null. 默认 是 尽可能的 大, 有 20k 个 字符.
-.TP
-.I "\-\-verbose, \-t"
-在 执行 之前 在 标准 错误 输出 显示 命令行.
-.TP
-.I "\-\-version"
-显示
-.B xargs
-的 版本号, 然后 退出.
-.TP
-.I "\-\-exit, \-x"
-如果 大小 超出 (见 \fI\-s\fR 选项) 就 退出.
-.TP
-.I "\-\-max-procs=max-procs, \-P max-procs"
-同时 最多 运行 \fImax-procs\fR 个 进程; 默认 是 1. 如果 \fImax-procs\fR 为 0,
-\fBxargs\fR 将 同时 运行 尽可能 多 的 进程. 最好 同时 用 \fI\-n\fR 选项; 不然
-很 可能 只会 做 一次 exec.
+在 \fB/tmp\fP 目录中或其子目录下查找名为 \fBcore\fP 的文件并将其删除，处理文件名时会正确处理包含空格或换行符的文件或目录名称。
 
-.SH "参见 (SEE ALSO)"
-\fBfind\fP(1L), \fBlocate\fP(1L), \fBlocatedb\fP(5L), \fBupdatedb\fP(1)
-\fBFinding Files\fP (在线 Info, 或者 打印的)
+.P
+\fBfind /tmp \-depth \-name core \-type f \-delete\fP
 
-.SH "[中文版维护人]"
-.B 唐友 \<tony_ty@263.net\>
-.SH "[中文版最新更新]"
-.BR 2001/10/31
-.SH "[中国Linux论坛man手册页翻译计划]"
-.BI http://cmpp.linuxforum.net
+在 \fB/tmp\fP 目录中或其子目录下查找名为 \fBcore\fP 的文件并将其删除，且比前一个示例更高效（因为我们避免了使用 \fBfork\fP(2) 和
+\fBexec\fP(2) 来启动 \fBrm\fP，也不需要额外的 \fBxargs\fP 进程）。
+
+.P
+.nf
+\fBcut \-d: \-f1 < /etc/passwd | sort | xargs echo\fP
+
+.fi
+生成系统上所有用户的简洁列表。
+.
+.SH 退出状态
+\fBxargs\fP 退出时会使用下列状态码：
+.RS
+.IP 0
+表示运行成功
+.IP 123
+表示所调用的命令中出现了退出状态码在 1\(en125 范围内的情况
+.IP 124
+表示命令以 255 退出
+.IP 125
+表示命令被信号杀死
+.IP 126
+表示无法运行命令
+.IP 127
+表示命令未找到
+.IP 1
+表示出现了其他错误。
+.RE
+
+.P
+大于 128 的退出状态码通常由 shell 所使用，指示程序由于某个致命信号而停止。
+.
+.SH 遵循标准
+截至 GNU xargs 第 4.2.9 版，\fBxargs\fP 的默认行为是不适用逻辑上的文件结束标记。POSIX (IEEE Std 1003.1,
+2004 版) 允许该行为。
+.P
+\-l 和 \-i 选项在 POSIX 标准的 1997 版出现，但在 2004 版中未出现。因此最好应使用 \-L 和 \-I 进行替代。
+.P
+\-o 选项是 POSIX 标准中为了加强与 BSD 的兼容性而出现的扩展。
+.P
+POSIX 标准允许具体实现设置 \fBexec\fP 函数的参数大小限制。包含环境在内，其限制最小可以低至 4096
+字节。如需编写可移植脚本，脚本不能假定更大的限制值。然而，笔者至今未曾见到最大值限制如此低的实现版本。可以使用 \fB\-\-show\-limits\fP
+选项检查当前系统上生效的实际限制值。
+
+在 \fBxargs\fP 4.9.0 版和之前版本中，即便未使用 \fB\-P\fP 选项，SIGUSR1 和 SIGUSR2 也不会导致 \fBxargs\fP
+终止运行。
+.
+.SH 历史
+
+\fBxargs\fP 程序由贝尔实验室的 Herb Gellis 所发明。请参见 findutils 的 texinfo 手册中 \fIFinding Files\fP 一节以了解更多信息。
+.
+.SH 缺陷
+无法保证 \fBxargs\fP 能够完全安全地运行，因为在产生输入文件的列表和其被 \fBxargs\fP
+执行的命令所处理这两个事件之间总有时间差。如果有其他用户同时在访问系统，他们可以在这个时间窗口内操作文件系统并迫使 \fBxargs\fP
+要运行的命令本来要处理的文件和实际处理的文件不相同。如需了解对这个问题和相关问题更详细的讨论，请参考 findutils Texinfo
+文档中的“Security Considerations”章节。\fBfind\fP 工具的 \fB\-execdir\fP
+选项通常可以被用来提供更为安全的功能替代。
+
+在使用 \fB\-I\fP 选项时，从输入读取的每一行都会存储在内部缓冲区。这意味着使用 \fB\-I\fP 选项时 \fBxargs\fP
+能接受的输入行数存在上限。如需绕过这个限制，可以使用 \fB\-s\fP 选项来加大 \fBxargs\fP 所使用的缓冲区大小，且另外也可以使用多次额外的
+\fBxargs\fP 调用来确保不会出现超长的行。例如：
+.P
+\fB某些命令 | xargs \-s 50000 echo | xargs \-I '{}' \-s 100000 rm '{}'\fP
+.P
+在这里，第一次调用的 \fBxargs\fP 因为未使用 \fB\-i\fP 选项而没有输入行长度限制。第二次调用的 \fBxargs\fP
+确实存在限制，但我们已确保了它永远不会遇到超出其处理能力范围的行。这并不是最理想的解决方法。理想情况下，\fB\-i\fP
+选项不应该预设行长度限制，这也是本段讨论会出现在“缺陷”一节中的原因。这个问题在处理 \fBfind\fP(1)
+的输出时并不会出现，因其每行只会输出一个文件名。
+.P
+在 \fBxargs\fP 4.9.0 版本及之前的版本中，\fBxargs \-P\fP 在其子进程仍在运行，但其中某些已经返回 255 的情况下会退出。
+.
+.SH 报告缺陷
+GNU findutils
+在线帮助：<https://www.gnu.org/software/findutils/#get\-help>
+.br
+请向 <https://translationproject.org/team/zh_CN.html> 报告翻译错误。
+.PP
+请使用 GNU Savannah 缺陷追踪系统上的表格报告任何出现的问题：
+.RS
+<https://savannah.gnu.org/bugs/?group=findutils>
+.RE
+有关 GNU findutils 软件包的通用主题可以在 \fIbug\-findutils\fP 邮件列表上讨论：
+.RS
+<https://lists.gnu.org/mailman/listinfo/bug\-findutils>
+.RE
+.
+.SH 版权
+版权所有 \(co 1990\(en2024 自由软件基金会。许可证 GPLv3+：GNU GPL 第 3 版或更新版本
+<https://gnu.org/licenses/gpl.html>。
+.br
+这是自由软件：您可以自由地更改并对其重新发布。在法律所允许的范围内不含任何担保。
+.
+.SH 参见
+\fBfind\fP(1), \fBkill\fP(1), \fBlocate\fP(1), \fBupdatedb\fP(1), \fBfork\fP(2),
+\fBexecvp\fP(3), \fBlocatedb\fP(5), \fBsignal\fP(7)
+.PP
+完整文档 <https://www.gnu.org/software/findutils/xargs>
+.br
+或者在本地使用：\fBinfo xargs\fP
