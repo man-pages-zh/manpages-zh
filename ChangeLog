@@ -1,3 +1,9 @@
+2026-07-31  Boyuan Yang <073plan@gmail.com>
+
+	* Full translation of cmp(1) and diff3(1) from diffutils
+	  3.12.
+	* Bump version string to 1.6.4.5.
+
 2026-07-14  Boyuan Yang <073plan@gmail.com>
 
 	* Full translation of autoconf(1) from autoconf 2.73.

@@ -42,6 +42,13 @@ License: GPL-2.0-only
 Comment: Files from procps-ng.
 
 Files:
+ src/man1/cmp.1
+ src/man1/diff3.1
+Copyright: 2025 Free Software Foundation, Inc.
+License: GPL-3.0-or-later
+Comment: files from diffutils.
+
+Files:
  src/man1/zless.1
 Copyright:
  2006-2007, 2015-2018 Free Software Foundation, Inc.
