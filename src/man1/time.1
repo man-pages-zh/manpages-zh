@@ -1,0 +1,189 @@
+.\" Man page added by Dirk Eddelbuettel <edd@debian.org> on 15 Apr 1996
+.\" Thanks to Herbert Thielen for a patch
+.\" Copyright (C) Dirk Eddelbuettel but freely redistributable
+.\" manpages-zh translator: ddgmma <yangyang2631@gmail.com>
+.\" manpages-zh date: 2026-10-19
+.\" manpages-zh orig-date: 1996-04-15
+.\" manpages-zh orig-package: time
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH TIME 1 "Debian GNU/Linux"  
+.\" Always turn off hyphenation; it makes way too many mistakes in
+.\" technical documents.
+.nh
+.SH 名称
+time \- 运行程序并汇总系统资源使用情况
+.SH 概述
+.na
+.TP 
+\fBtime\fP
+[ \fB\-apqvV\fP ] [ \fB\-f\fP\fI 格式\fP ] [ \fB\-o\fP\fI 文件\fP ]
+.br
+[ \fB\-\-append\fP ] [ \fB\-\-verbose\fP ] [ \fB\-\-quiet\fP ] [ \fB\-\-portability\fP ]
+.br
+[ \fB\-\-format=\fP\fI格式\fP ] [ \fB\-\-output=\fP\fI文件\fP ] [ \fB\-\-version\fP ]
+.br
+[ \fB\-\-help\fP ] \fI命令\fP [ \fI参数\fP ]
+.ad b
+.if  n .ad l
+.\" For nroff, turn off justification.
+.SH 描述
+\fBtime\fP 运行程序 \fICOMMAND\fP，并向其传递给定的参数 \fIARG...\fP。当 \fICOMMAND\fP 结束后，\fBtime\fP 会显示
+\fICOMMAND\fP 所使用的资源信息（默认输出到标准错误）。如果 \fICOMMAND\fP 以非零状态退出，\fBtime\fP 会显示一条警告消息和退出状态。
+
+\fBtime\fP 根据字符串 \fIFORMAT\fP 决定显示 \fICOMMAND\fP 使用资源的哪些信息。如果命令行未指定格式，但设置了 \fBTIME\fP
+环境变量，则使用其值作为格式。否则，使用 \fBtime\fP 内置的默认格式。
+
+\fBtime\fP 的选项必须出现在命令行中 \fICOMMAND\fP 之前。\fICOMMAND\fP 之后的任何内容都会作为参数传递给 \fICOMMAND\fP。
+
+.SH 选项
+.TP 
+\fB\-o\fP\fI 文件, \fP\fB\-\-output=\fP\fI文件 \fP
+将资源使用统计信息写入
+\fIFILE\fP，而不是标准错误流。默认情况下，这会覆盖文件，销毁文件原有内容。此选项适用于收集交互式程序以及向标准错误流输出内容的程序的资源信息。
+.TP 
+\fB\-a\fP, \fB\-\-append\fP
+将资源使用信息追加到输出文件，而不是覆盖它。此选项仅与 `\-o' 或 `\-\-output' 选项一起使用时有效。
+.TP 
+\fB\-f\fP\fI 格式, \fP\fB\-\-format\fP\fI 格式 \fP
+使用 \fIFORMAT\fP 作为控制 \fBtime\fP 输出的格式字符串。更多信息见下文。
+.TP 
+\fB\-\-help\fP
+打印命令行选项摘要并退出。
+.TP 
+\fB\-p\fP, \fB\-\-portability\fP
+使用以下格式字符串，以符合 POSIX 1003.2 标准：
+          real %e
+          user %U
+          sys %S
+.TP 
+\fB\-v\fP, \fB\-\-verbose\fP
+使用内置的详细格式，将程序资源使用的每项可用信息单独显示在一行上，并用英文说明其含义。
+.TP 
+\fB\-\-quiet\fP
+即使程序状态不为零，也不报告该状态。
+.TP 
+\fB\-V\fP, \fB\-\-version\fP
+打印 \fBtime\fP 的版本号并退出。
+
+.SH 格式化输出
+格式字符串
+\fIFORMAT\fP
+控制
+\fBtime\fP
+输出的内容。格式字符串可以通过 `\-f' 或 `\-\-format'、`\-v' 或
+`\-\-verbose'、或者 `\-p' 或 `\-\-portability' 选项设置。如果未给出这些选项，但设置了
+\fITIME\fP
+环境变量，则使用其值作为格式字符串。
+否则，使用内置的默认格式。默认格式为：
+  %Uuser %Ssystem %Eelapsed %PCPU (%Xtext+%Ddata %Mmax)k
+  %Iinputs+%Ooutputs (%Fmajor+%Rminor)pagefaults %Wswaps
+
+格式字符串通常由“资源说明符”和普通文本交错组成。格式字符串中的百分号（`%'）会使后面的字符被解释为资源说明符，类似于 \fBprintf\fP(3)
+函数中的格式字符。
+
+反斜杠（`\e'）引入一个“反斜杠转义”，在输出时会转换为单个可打印字符。`\et' 输出制表符，`\en' 输出换行符，`\e\e'
+输出反斜杠。反斜杠后跟任何其他字符时，会输出一个问号（`?'）后跟该反斜杠，表示给出了无效的反斜杠转义。
+
+格式字符串中的其他文本会原样复制到输出。\fBtime\fP 在打印资源使用信息后总会输出一个换行符，因此格式字符串通常不应以换行符（或 `\en'）结尾。
+
+资源说明符很多。并非所有 Unix
+版本都会测量所有资源，因此某些值可能报告为零。百分号后跟的任何未在下表中列出的字符，都会输出一个问号（`?'）后跟该字符，表示给出了无效的资源说明符。
+
+.\" No blank line between the resource specifiers below so that they
+.\" are more compactly listed.
+.PD 0
+资源说明符是 \fBtcsh\fP(1) 内建 `time' 命令所识别说明符的超集，包括：
+.RS
+.IP %
+字面百分号 `%'。
+.IP C
+被计时命令的名称和命令行参数。
+.IP D
+进程非共享数据区的平均大小，单位为千字节。
+.IP E
+进程使用的实际（挂钟）时间，格式为 [小时:]分钟:秒。
+.IP F
+进程运行期间发生的 major（需要 I/O 的）缺页次数。这类缺页是指页面实际已从主存中移出。
+.IP I
+进程的文件系统输入次数。
+.IP K
+进程的平均总内存使用量（数据+栈+文本），单位为千字节。
+.IP M
+进程生命周期内的最大常驻集大小，单位为千字节。
+.IP O
+进程的文件系统输出次数。
+.IP P
+此任务获得的 CPU 百分比。它等于用户时间加系统时间除以总运行时间。它还会打印一个百分号。
+.IP R
+minor（可恢复）缺页次数。这些页面无效（因此会触发缺页），但尚未被其他虚拟页面占用。因此页面中的数据仍然有效，但系统表必须更新。
+.IP S
+系统代表进程（在内核模式下）使用的 CPU 秒总数，单位为秒。
+.IP U
+进程直接（在用户模式下）使用的 CPU 秒总数，单位为秒。
+.IP W
+进程被换出主存的次数。
+.IP X
+进程中共享文本的平均量，单位为千字节。
+.IP Z
+系统的页面大小，单位为字节。这是每个系统的常量，但不同系统之间可能不同。
+.IP c
+进程被非自愿上下文切换的次数（因为时间片用完）。
+.IP e
+进程使用的实际（挂钟）时间，单位为秒。
+.IP k
+传递给进程的信号数量。
+.IP p
+进程的平均非共享栈大小，单位为千字节。
+.IP r
+进程接收的套接字消息数量。
+.IP s
+进程发送的套接字消息数量。
+.IP t
+进程的平均常驻集大小，单位为千字节。
+.IP w
+程序被自愿上下文切换的次数，例如等待 I/O 操作完成时。
+.IP x
+命令的退出状态。
+.RS
+
+.SH 示例
+要运行命令 `wc /etc/hosts' 并显示默认信息：
+     time wc /etc/hosts
+
+要运行命令 `ls \-Fs' 并仅显示用户、系统和总时间：
+     time \-f "\et%E real,\et%U user,\et%S sys" ls \-Fs
+
+要编辑文件 BORK，并让 `time' 将实际耗时和信号数量追加到文件 `log'，同时从环境变量 `TIME' 读取格式字符串：
+     export TIME="\et%E,\et%k" # 如果使用 bash 或 ksh
+     setenv TIME "\et%E,\et%k" # 如果使用 csh 或 tcsh
+     time \-a \-o log emacs bork
+
+\fBbash\fP shell 的用户需要使用显式路径来运行外部 \fBtime\fP 命令，而不是 shell 内建版本。在 \fBtime\fP 安装于 \fI/usr/bin\fP 的系统上，第一个示例会变为
+     /usr/bin/time wc /etc/hosts
+
+.SH 精确度
+实际耗时并非与程序执行原子地收集；因此在异常情况下（如果 \fBtime\fP 命令在被计时程序退出与 \fBtime\fP
+计算运行时长之间被停止或换出），它可能远大于实际执行时间。
+
+当命令的运行时间非常接近零时，某些值（例如 CPU 使用百分比）可能报告为零（这是错误的）或问号。
+
+\fBtime\fP 显示的大部分信息来自 \fBwait3\fP(2) 系统调用。这些数字的准确度取决于 \fBwait3\fP(2) 返回的值。在没有返回状态信息的
+\fBwait3\fP(2) 调用的系统上，会改用 \fBtimes\fP(2) 系统调用。然而，它提供的信息远少于 \fBwait3\fP(2)，因此在这些系统上
+\fBtime\fP 会将大多数资源报告为零。
+
+据称 `%I' 和 `%O' 值仅包含“真实”输入和输出，不包括缓存设备提供的数据。对于工作站，尤其是无盘工作站，`%I' 和 `%O'
+报告的“真实”I/O 含义可能比较混乱。
+
+.SH 诊断
+\fBtime\fP 命令在程序退出、停止或被信号终止时返回。如果程序正常退出，\fBtime\fP 的返回值就是它所执行并测量的程序的返回值。否则，返回值为
+128 加上导致程序停止或终止的信号编号。
+.SH 作者
+\fBtime\fP 由 David MacKenzie 编写。本手册页由 Debian GNU/Linux 维护者 Dirk Eddelbuettel
+<edd@debian.org> 添加，供 Debian GNU/Linux 发行版使用，当然也可以供其他人使用。
+
+.SH 参见
+\fBtcsh\fP(1), \fBprintf\fP(3)

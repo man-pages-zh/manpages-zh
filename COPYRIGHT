@@ -86,6 +86,30 @@ Copyright:
  1997 Andries Brouwer (aeb@cwi.nl)
 License: GPL-2.0-or-later
 
+Files:
+ src/man8/ss.8
+Copyright:
+ Alexey Kuznetsov
+ Michael Prokop
+License: GPL-2.0-only
+Comment: File from iproute2.
+
+Files:
+ src/man1/locate.1
+Copyright:
+ 1994, 1996, 1998-2000, 2003-2008, 2010-2011, 2016 Free Software Foundation, Inc.
+License: GPL-3.0-or-later
+Comment: File from findutils.
+
+Files:
+ src/man1/time.1
+Copyright: 1996 Dirk Eddelbuettel <edd@miles.econ.queensu.ca>
+License: freely-redistributable
+Comment: File from Debian's GNU time package.
+
+License: freely-redistributable
+ Copyright Dirk Eddelbuettel but freely redistributable
+
 License: GPL-2.0-only
  Licensed under version 2 of the GNU General Public License.
  .

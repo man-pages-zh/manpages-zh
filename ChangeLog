@@ -1,3 +1,9 @@
+2026-10-19  ddgmma <yangyang2631@gmail.com>
+
+	* Full translation of ss(8) from iproute2.
+	* Full translation of locate(1) from findutils.
+	* Full translation of time(1) from Debian's GNU time package.
+
 2026-07-31  Boyuan Yang <073plan@gmail.com>
 
 	* Full translation of cmp(1) and diff3(1) from diffutils

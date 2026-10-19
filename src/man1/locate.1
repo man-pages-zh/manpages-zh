@@ -1,0 +1,147 @@
+.\" -*- nroff -*-
+.\" manpages-zh translator: ddgmma <yangyang2631@gmail.com>
+.\" manpages-zh date: 2026-10-19
+.\" manpages-zh orig-package: findutils
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH LOCATE 1   
+.SH 名称
+locate \- 列出数据库中与模式匹配的文件
+.SH 概述
+\fBlocate\fP [\-d 路径 | \-\-database=路径] [\-e | \-E | \-\-[non\-]existing] [\-i |
+\-\-ignore\-case] [\-0 | \-\-null] [\-c | \-\-count] [\-w | \-\-wholename] [\-b |
+\-\-basename] [\-l N | \-\-limit=N] [\-S | \-\-statistics] [\-r | \-\-regex ]
+[\-\-max\-database\-age D] [\-P | \-H | \-\-nofollow] [\-L | \-\-follow] [\-\-version]
+[\-A | \-\-all] [\-p | \-\-print] [\-\-help] 模式...
+.SH 描述
+本手册页介绍 GNU 版本的 \fBlocate\fP。对于每个给定的模式，\fBlocate\fP
+会搜索一个或多个文件名数据库，并显示包含该模式的文件名。模式可以包含 shell 风格元字符：`*'、`?' 和 `[]'。这些元字符不会对 `/' 或
+`.' 做特殊处理。因此，模式 `foo*bar' 可以匹配包含 `foo3/bar' 的文件名，模式 `*duck*' 可以匹配包含
+`lake/.ducky' 的文件名。包含元字符的模式应加引号，以防止被 shell 展开。
+.P
+如果模式是普通字符串——不包含元字符——\fBlocate\fP 会显示数据库中任意位置包含该字符串的所有文件名。如果模式确实包含元字符，\fBlocate\fP
+只显示与模式完全匹配的文件名。因此，包含元字符的模式通常应以 `*' 开头，并且通常也以 `*' 结尾。例外情况是打算显式匹配文件名开头或结尾的模式。
+.P
+文件名数据库包含数据库上次更新时系统上存在的文件列表。系统管理员可以选择默认数据库的文件名、数据库更新的频率，以及数据库包含条目的目录；参见
+\fBupdatedb\fP(1)。
+.P
+如果 \fBlocate\fP 的输出要发送到终端，输出中的异常字符会按照 \fBfind\fP 命令 \-print
+操作的相同方式进行转义。如果输出不发送到终端，文件名将完全按原样打印。
+
+.SH 选项
+.TP 
+\fI\-0, \-\-null\fP
+使用 ASCII NUL 而不是换行符作为分隔符。
+.TP 
+\fI\-A, \-\-all\fP
+仅打印匹配所有非选项参数（而不是匹配一个或多个非选项参数）的名称。
+.TP 
+\fI\-b, \-\-basename\fP
+如果指定的模式与数据库中列出的文件名的最后一部分匹配，则认为结果匹配。最后一部分通常称为“基名”。
+.TP 
+\fI\-c, \-\-count\fP
+不打印匹配的文件名，而只打印找到的匹配总数，除非同时指定了 \-\-\fIprint\fP（\-p）。
+.TP 
+\fI\-d path, \-\-database=path\fP
+不在默认文件名数据库中搜索，而是在 \fIpath\fP 指定的文件名数据库中搜索；\fIpath\fP 是以冒号分隔的数据库文件名列表。也可以使用环境变量
+\fBLOCATE_PATH\fP 设置要搜索的数据库文件列表。如果同时使用两者，该选项会覆盖环境变量。路径中的空元素被视为默认数据库文件名的同义词。可以使用
+`\-' 作为 \fIpath\fP 的元素，从标准输入提供数据库。如果 \fIpath\fP 中有多个元素为 `\-'，后续实例会被忽略（并打印警告消息）。
+.IP
+从 GNU \fBfind\fP 和 \fBlocate\fP 4.0 版开始，文件名数据库格式发生了变化，以允许不同字节序的机器共享数据库。此版本的
+\fBlocate\fP 可以自动识别并读取旧版 GNU \fBlocate\fP 或 Unix 版 \fBlocate\fP 或 \fBfind\fP 生成的数据库。对旧
+locate 数据库格式的支持将在未来版本中停止。
+.TP 
+\fI\-e, \-\-existing\fP
+仅打印当前存在的名称（而不是数据库创建时存在的名称）。请注意，如果数据库中有很多匹配项，这可能会显著降低程序速度。如果在程序中使用此选项，请注意文件可能在
+\fBlocate\fP 检查其存在之后、你使用它之前被删除。
+.TP 
+\fI\-E, \-\-non\-existing\fP
+仅打印当前不存在的名称（而不是数据库创建时存在的名称）。请注意，如果数据库中有很多匹配项，这可能会显著降低程序速度。
+.TP 
+\fI\-\-help\fP
+打印 \fBlocate\fP 的选项摘要并退出。
+.TP 
+\fI\-i, \-\-ignore\-case\fP
+忽略模式和文件名中的大小写差异。
+.TP 
+\fI\-l N, \-\-limit=N\fP
+将匹配数限制为 N。如果通过此选项设置了限制，则 \-c 选项打印的结果数永远不会大于此数量。
+.TP 
+\fI\-L, \-\-follow\fP
+在测试文件是否存在时（使用 \-e 或 \-E 选项），将损坏的符号链接视为不存在。这是默认行为。
+.TP 
+\fI\-\-max\-database\-age D\fP
+通常，\fBlocate\fP 在搜索超过 8 天的数据库时会发出警告消息。此选项将该值改为 8 以外的值。指定负值的效果未定义。
+.TP 
+\fI\-m, \-\-mmap\fP
+为兼容 BSD \fBlocate\fP 而接受，但不起任何作用。
+.TP 
+\fI\-P, \-H, \-\-nofollow\fP
+在测试文件是否存在时（使用 \-e 或 \-E 选项），将损坏的符号链接视为已存在文件。\-H 形式仅为与 \fBfind\fP 相似而提供；建议使用 \-P 而不是
+\-H。
+.TP 
+\fI\-p, \-\-print\fP
+在由于存在 \-\-statistics（\-S）或 \-\-count（\-c）而通常不打印搜索结果时，仍然打印搜索结果。
+.TP 
+\fI\-r, \-\-regex \fP
+命令行指定的模式被理解为正则表达式，而不是通配符模式。正则表达式的工作方式与 \fBemacs\fP 和 \fBfind\fP 中相同，只是 "."
+会匹配换行符。完整路径匹配指定正则表达式的文件名会被打印（对于 \-c
+选项则会被计数）。如果希望将正则表达式锚定在完整路径名的两端，则应像通常的正则表达式那样使用字符 ^ 和 $ 来表示。
+.TP 
+\fI\-s, \-\-stdio\fP
+为兼容 BSD \fBlocate\fP 而接受，但不起任何作用。
+.TP 
+\fI\-S, \-\-statistics\fP
+打印每个 locate 数据库的各种统计信息，然后退出而不执行搜索，除非给出了非选项参数。为兼容 BSD，\-S 可作为 \-\-statistics
+的同义词。然而，GNU 和 BSD 实现的 \fBlocate\fP 的 \fBlocate \-S\fP 输出不同。
+.TP 
+\fI\-\-version\fP
+打印 \fBlocate\fP 的版本号并退出。
+.TP 
+\fI\-w, \-\-wholename\fP
+针对数据库中列出的文件完整名称进行匹配。这是默认行为。
+.SH 环境
+.TP 
+\fBLOCATE_PATH\fP
+以冒号分隔的要搜索的数据库列表。如果值以冒号开头或结尾，或者连续出现两个冒号，不同版本的 \fBlocate\fP 可能会给出不同结果。
+
+.SH 参见
+\fBfind\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1), \fBglob\fP(3)
+
+\fBlocate\fP 的完整文档以 Texinfo 手册形式维护。如果站点上正确安装了 \fBinfo\fP 和 \fBlocate\fP 程序，命令 \fBinfo locate\fP 应能让你访问完整手册。
+
+
+.SH 历史
+\fBlocate\fP 程序最初是 BSD fast find 程序，由 James A. Woods 贡献给 BSD。他的论文 \fIFinding Files Fast\fP 对此进行了描述，该论文发表于 Usenix \fI;login:\fP，第 8 卷第 1 期，1983 年 2 月/3 月，第
+8\-10 页。当 \fBfind\fP 程序开始在未指定操作时采用默认的 \fB\-print\fP 操作时，这改变了 \fBfind\fP \fBpattern\fP
+的解释。因此，BSD 开发者将 fast find 功能移入 \fBlocate\fP。GNU 版 \fBlocate\fP 似乎源自同一代码。
+.P
+\fBlocate\fP 的重要变更（按时间倒序）：
+.TS
+tab(|);
+LL.
+4.3.7 | 旧数据库格式的字节序无关支持
+4.3.3 | locate \fI\-i\fP 正确支持多字节字符
+      | 引入 \fI\-\-max_db_age\fP
+4.3.2 | 支持 slocate 数据库格式
+4.2.22| 引入 \fI\-\-all\fP 选项
+4.2.15| 引入 \fI\-\-regex\fP 选项
+4.2.14| 引入 \fI\-L, \-P, \-H\fP 选项
+4.2.12| \fBLOCATE_PATH\fP 中的空项现在表示默认数据库
+4.2.11| 引入 \fI\-\-statistics\fP 选项
+4.2.4 | 引入 \fI\-\-count\fP 和 \fI\-\-limit\fP
+4.2.0 | 通配字符会导致针对整个文件名进行匹配
+4.0   | 引入 LOCATE02 数据库格式
+3.7   | locate 可以搜索多个数据库
+.TE
+.SH 缺陷
+.P
+locate 数据库能够正确处理包含换行符的文件名，但前提是系统的 sort 命令具有可用的 \-z 选项。如果你怀疑 \fBlocate\fP
+可能需要返回包含换行符的文件名，请考虑使用其 \fI\-\-null\fP 选项。
+.P
+报告缺陷的最佳方式是使用 http://savannah.gnu.org/bugs/?group=findutils
+上的表单。这样你就可以跟踪问题修复进度。有关 \fBlocate\fP(1) 以及 findutils 软件包的其他评论，可以发送到
+\fIbug\-findutils\fP 邮件列表。要加入列表，请发送电子邮件至 \fIbug\-findutils\-request@gnu.org\fP。

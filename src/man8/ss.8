@@ -1,0 +1,524 @@
+.\" manpages-zh translator: ddgmma <yangyang2631@gmail.com>
+.\" manpages-zh date: 2026-10-19
+.\" manpages-zh orig-package: iproute2
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH SS 8   
+.SH 名称
+ss \- 另一个用于查看套接字的工具
+.SH 概述
+\fBss\fP [\fI选项\fP]\fI [ 过滤器 ]\fP
+.SH 描述
+\fBss\fP 用于转储套接字统计信息。它可以显示类似于 \fInetstat\fP 的信息。与其他工具相比，它可以显示更多的 TCP 和状态信息。
+
+.SH 选项
+未使用任何选项时，ss 会显示已建立连接的开放非监听套接字列表（例如 TCP/UNIX/UDP）。
+.TP 
+\fB\-h, \-\-help\fP
+显示选项摘要。
+.TP 
+\fB\-V, \-\-version\fP
+输出版本信息。
+.TP 
+\fB\-H, \-\-no\-header\fP
+抑制标题行。
+.TP 
+\fB\-Q, \-\-no\-queues\fP
+隐藏发送队列和接收队列两列。
+.TP 
+\fB\-O, \-\-oneline\fP
+将每个套接字的数据打印在一行上。
+.TP 
+\fB\-n, \-\-numeric\fP
+不要尝试解析服务名。显示精确的带宽值，而不是人类可读的值。
+.TP 
+\fB\-r, \-\-resolve\fP
+尝试解析数字地址/端口。
+.TP 
+\fB\-a, \-\-all\fP
+显示监听和非监听（对于 TCP，这意味着已建立连接）套接字。
+.TP 
+\fB\-l, \-\-listening\fP
+仅显示监听套接字（默认情况下会省略这些）。
+.TP 
+\fB\-B, \-\-bound\-inactive\fP
+仅显示已绑定但处于非活动状态的 TCP 套接字（未监听、未连接等）（默认情况下会省略这些）。
+.TP 
+\fB\-o, \-\-options\fP
+显示定时器信息。对于 TCP 协议，输出格式为：
+.RS
+.P
+timer:(<timer_name>,<expire_time>,<retrans>)
+.P
+.TP 
+\fB<timer_name>\fP
+定时器的名称，共有五种定时器名称：
+.RS
+.P
+\fBon\fP：表示以下定时器之一：TCP 重传定时器、TCP 提前重传定时器和尾丢失探测定时器
+.P
+\fBkeepalive\fP：TCP 保活定时器
+.P
+\fBtimewait\fP：TIME_WAIT 阶段定时器
+.P
+\fBpersist\fP：零窗口探测定时器
+.P
+\fBunknown\fP：以上定时器都不是
+.RE
+.TP 
+\fB<expire_time>\fP
+距离定时器到期还有多长时间
+.P
+.TP 
+\fB<retrans>\fP
+已发生重传的次数
+.RE
+.TP 
+\fB\-e, \-\-extended\fP
+显示详细的套接字信息。输出格式为：
+.RS
+.P
+uid:<uid_number> ino:<inode_number> sk:<cookie>
+.P
+.TP 
+\fB<uid_number>\fP
+套接字所属的用户 ID
+.P
+.TP 
+\fB<inode_number>\fP
+套接字在 VFS 中的 inode 编号
+.P
+.TP 
+\fB<cookie>\fP
+套接字的 UUID
+.RE
+.TP 
+\fB\-m, \-\-memory\fP
+显示套接字内存使用情况。输出格式为：
+.RS
+.P
+skmem:(r<rmem_alloc>,rb<rcv_buf>,t<wmem_alloc>,tb<snd_buf>,
+.br
+.RS
+.RS
+f<fwd_alloc>,w<wmem_queued>,o<opt_mem>,
+.RE
+.RE
+.br
+.RS
+.RS
+bl<back_log>,d<sock_drop>)
+.RE
+.RE
+.P
+.TP 
+\fB<rmem_alloc>\fP
+为接收数据包分配的内存量
+.P
+.TP 
+\fB<rcv_buf>\fP
+可用于接收数据包的总内存量
+.P
+.TP 
+\fB<wmem_alloc>\fP
+用于发送数据包的内存量（已发送到第 3 层）
+.P
+.TP 
+\fB<snd_buf>\fP
+可用于发送数据包的总内存量
+.P
+.TP 
+\fB<fwd_alloc>\fP
+套接字作为缓存分配但尚未用于接收/发送数据包的内存量。如果需要内存来发送/接收数据包，会先使用此缓存中的内存，然后再分配额外内存。
+.P
+.TP 
+\fB<wmem_queued>\fP
+为发送数据包分配的内存量（尚未发送到第 3 层）
+.P
+.TP 
+\fB<opt_mem>\fP
+用于存储套接字选项的内存量，例如 TCP MD5 签名密钥
+.P
+.TP 
+\fB<back_log>\fP
+用于 sk backlog 队列的内存量。在进程上下文中，如果进程正在接收数据包，并且收到新数据包，该数据包会被放入 sk backlog
+队列，以便进程立即接收。
+.P
+.TP 
+\fB<sock_drop>\fP
+在数据包被解复用到套接字之前丢弃的数据包数量
+.RE
+.TP 
+\fB\-p, \-\-processes\fP
+显示使用套接字的进程。
+.TP 
+\fB\-T, \-\-threads\fP
+显示使用套接字的线程。隐含启用 \fB\-p\fP。
+.TP 
+\fB\-i, \-\-info\fP
+显示内部 TCP 信息。可能出现以下字段：
+.RS
+.P
+.TP 
+\fBts\fP
+如果设置了时间戳选项，则显示字符串 "ts"
+.P
+.TP 
+\fBsack\fP
+如果设置了 sack 选项，则显示字符串 "sack"
+.P
+.TP 
+\fBecn\fP
+如果设置了显式拥塞通知选项，则显示字符串 "ecn"
+.P
+.TP 
+\fBecnseen\fP
+如果在接收到的数据包中发现 ecn 标志，则显示字符串 "ecnseen"
+.P
+.TP 
+\fBfastopen\fP
+如果设置了 fastopen 选项，则显示字符串 "fastopen"
+.P
+.TP 
+\fBcong_alg\fP
+拥塞算法名称，默认拥塞算法为 "cubic"
+.P
+.TP 
+\fBwscale:<snd_wscale>:<rcv_wscale>\fP
+如果使用了窗口缩放选项，此字段显示发送缩放因子和接收缩放因子
+.P
+.TP 
+\fBrto:<icsk_rto>\fP
+TCP 重传超时值，单位为毫秒
+.P
+.TP 
+\fBbackoff:<icsk_backoff>\fP
+用于指数退避重传，实际重传超时值为 icsk_rto << icsk_backoff
+.P
+.TP 
+\fBrtt:<rtt>/<rttvar>\fP
+rtt 是平均往返时间，rttvar 是 rtt 的平均偏差，它们的单位都是毫秒
+.P
+.TP 
+\fBato:<ato>\fP
+ACK 超时，单位为毫秒，用于延迟 ACK 模式
+.P
+.TP 
+\fBmss:<mss>\fP
+最大段大小
+.P
+.TP 
+\fBcwnd:<cwnd>\fP
+拥塞窗口大小
+.P
+.TP 
+\fBpmtu:<pmtu>\fP
+路径 MTU 值
+.P
+.TP 
+\fBssthresh:<ssthresh>\fP
+TCP 拥塞窗口慢启动阈值
+.P
+.TP 
+\fBbytes_acked:<bytes_acked>\fP
+已确认的字节数
+.P
+.TP 
+\fBbytes_received:<bytes_received>\fP
+已接收的字节数
+.P
+.TP 
+\fBsegs_out:<segs_out>\fP
+已发送的段数
+.P
+.TP 
+\fBsegs_in:<segs_in>\fP
+已接收的段数
+.P
+.TP 
+\fBsend <send_bps>bps\fP
+出站 bps
+.P
+.TP 
+\fBlastsnd:<lastsnd>\fP
+距离上次发送数据包已经过去的时间，单位为毫秒
+.P
+.TP 
+\fBlastrcv:<lastrcv>\fP
+距离上次接收数据包已经过去的时间，单位为毫秒
+.P
+.TP 
+\fBlastack:<lastack>\fP
+距离上次收到 ACK 已经过去的时间，单位为毫秒
+.P
+.TP 
+\fBpacing_rate <pacing_rate>bps/<max_pacing_rate>bps\fP
+发送速率和最大发送速率
+.P
+.TP 
+\fBrcv_space:<rcv_space>\fP
+用于 TCP 内部自动调整套接字接收缓冲区的辅助变量
+.P
+.TP 
+\fBtcp\-ulp\-mptcp flags:[MmBbJjecv] token:<rem_token(rem_id)/loc_token(loc_id)> seq:<sn> sfseq:<ssn> ssnoff:<off> maplen:<maplen>\fP
+MPTCP 子流信息
+.P
+.RE
+.TP 
+\fB\-\-tos\fP
+显示 ToS 和优先级信息。可能出现以下字段：
+.RS
+.P
+.TP 
+\fBtos\fP
+IPv4 服务类型字节
+.P
+.TP 
+\fBtclass\fP
+IPv6 流量类别字节
+.P
+.TP 
+\fBclass_id\fP
+由 net_cls cgroup 设置的类 ID。如果类为零，则显示由 SO_PRIORITY 设置的优先级。
+.RE
+.TP 
+\fB\-\-cgroup\fP
+显示 cgroup 信息。可能出现以下字段：
+.RS
+.P
+.TP 
+\fBcgroup\fP
+Cgroup v2 路径名。此路径名相对于层级结构的挂载点。
+.RE
+.TP 
+\fB\-\-tipcinfo\fP
+显示内部 TIPC 套接字信息。
+.TP 
+\fB\-K, \-\-kill\fP
+尝试强制关闭套接字。此选项会显示成功关闭的套接字，并静默跳过内核不支持关闭的套接字。它仅支持 IPv4 和 IPv6 套接字。
+.TP 
+\fB\-s, \-\-summary\fP
+打印汇总统计信息。此选项不解析套接字列表，而是从各种来源获取汇总信息。当套接字数量巨大，解析 /proc/net/tcp 很痛苦时，此选项很有用。
+.TP 
+\fB\-E, \-\-events\fP
+在套接字被销毁时持续显示它们
+.TP 
+\fB\-Z, \-\-context\fP
+与 \fB\-p\fP 选项类似，但还会显示进程安全上下文。如果使用了 \fB\-T\fP 选项，还会显示线程安全上下文。
+.sp
+对于 \fBnetlink\fP(7) 套接字，发起进程上下文的显示方式如下：
+.RS
+.RS
+.IP 1. 4
+如果 pid 有效，则显示进程上下文。
+.IP 2. 4
+如果目标是内核（pid = 0），则显示内核初始上下文。
+.IP 3. 4
+如果内核或 netlink 用户已分配唯一标识符，则将上下文显示为 "unavailable"。这通常表示某个进程有多个活动的 netlink 套接字。
+.RE
+.RE
+.TP 
+\fB\-z, \-\-contexts\fP
+与 \fB\-Z\fP 选项类似，但还会显示套接字上下文。套接字上下文取自关联的
+inode，而不是内核持有的实际套接字上下文。套接字通常使用创建进程的上下文进行标记，但显示的上下文会反映所应用的任何策略角色、类型和/或范围转换规则，因此是有用的参考。
+.TP 
+\fB\-N NSNAME, \-\-net=NSNAME\fP
+切换到指定的网络命名空间名称。
+.TP 
+\fB\-b, \-\-bpf\fP
+显示套接字经典 BPF 过滤器（只有管理员才能获取此信息）。
+.TP 
+\fB\-4, \-\-ipv4\fP
+仅显示 IP 版本 4 套接字（\-f inet 的别名）。
+.TP 
+\fB\-6, \-\-ipv6\fP
+仅显示 IP 版本 6 套接字（\-f inet6 的别名）。
+.TP 
+\fB\-0, \-\-packet\fP
+显示 PACKET 套接字（\-f link 的别名）。
+.TP 
+\fB\-t, \-\-tcp\fP
+显示 TCP 套接字。
+.TP 
+\fB\-u, \-\-udp\fP
+显示 UDP 套接字。
+.TP 
+\fB\-w, \-\-raw\fP
+显示 RAW 套接字。
+.TP 
+\fB\-x, \-\-unix\fP
+显示 Unix 域套接字（\-f unix 的别名）。
+.TP 
+\fB\-S, \-\-sctp\fP
+显示 SCTP 套接字。
+.TP 
+\fB\-\-tipc\fP
+显示 tipc 套接字（\-f tipc 的别名）。
+.TP 
+\fB\-\-vsock\fP
+显示 vsock 套接字（\-f vsock 的别名）。
+.TP 
+\fB\-\-xdp\fP
+显示 XDP 套接字（\-f xdp 的别名）。
+.TP 
+\fB\-M, \-\-mptcp\fP
+显示 MPTCP 套接字。
+.TP 
+\fB\-\-inet\-sockopt\fP
+显示 inet 套接字选项。
+.TP 
+\fB\-f FAMILY, \-\-family=FAMILY\fP
+显示 FAMILY 类型的套接字。目前支持以下类型：unix、inet、inet6、link、netlink、vsock、tipc、xdp。
+.TP 
+\fB\-A QUERY, \-\-query=QUERY, \-\-socket=QUERY\fP
+要转储的套接字表列表，以逗号分隔。可以识别以下标识符：all、inet、tcp、udp、raw、unix、packet、netlink、unix_dgram、unix_stream、unix_seqpacket、packet_raw、packet_dgram、sctp、tipc、vsock_stream、vsock_dgram、xdp、mptcp。列表中的任何项都可以选择以感叹号（\fB!\fP）为前缀，以将该套接字表排除在转储之外。
+.TP 
+\fB\-D FILE, \-\-diag=FILE\fP
+不显示任何内容，只在应用过滤器后将 TCP 套接字的原始信息转储到 FILE。如果 FILE 为 \-，则使用标准输出。
+.TP 
+\fB\-F FILE, \-\-filter=FILE\fP
+从 FILE 读取过滤信息。FILE 的每一行都像单个命令行选项一样解释。如果 FILE 为 \-，则使用标准输入。
+.TP 
+\fB\-\-bpf\-maps\fP
+美化打印每个套接字的所有 BPF 套接字本地数据条目。
+.TP 
+\fB\-\-bpf\-map\-id=MAP_ID\fP
+美化打印所请求映射 ID 的 BPF 套接字本地数据条目。可以多次使用。
+.TP 
+\fBFILTER := [ state STATE\-FILTER ] [ EXPRESSION ]\fP
+有关过滤器的详细信息，请参阅官方文档。
+
+.SH 状态过滤器
+
+\fBSTATE\-FILTER\fP 允许构造任意要匹配的状态集合。其语法是关键字 state 和 exclude 的序列，后跟状态标识符。
+.TP 
+可用的标识符有：
+
+所有标准 TCP
+状态：\fBestablished\fP、\fBsyn\-sent\fP、\fBsyn\-recv\fP、\fBfin\-wait\-1\fP、\fBfin\-wait\-2\fP、\fBtime\-wait\fP、\fBclosed\fP、\fBclose\-wait\fP、\fBlast\-ack\fP、\fBlistening\fP
+和 \fBclosing\fP。
+
+\fBall\fP \- 表示所有状态
+
+\fBconnected\fP \- 除 \fBlistening\fP 和 \fBclosed\fP 之外的所有状态
+
+\fBsynchronized\fP \- 除 \fBsyn\-sent\fP 之外的所有 \fBconnected\fP 状态
+
+\fBbucket\fP \- 以 minisocket 形式维护的状态，即 \fBtime\-wait\fP 和 \fBsyn\-recv\fP
+
+\fBbig\fP \- 与 \fBbucket\fP 相反
+
+\fBbound\-inactive\fP \- 已绑定但其他方面处于非活动状态的套接字（未监听、未连接等）
+
+.SH 表达式
+
+\fBEXPRESSION\fP 允许基于特定条件进行过滤。\fBEXPRESSION\fP 由一系列谓词组成，并通过布尔运算符组合。可用的运算符按优先级从低到高为
+\fBor\fP（或 | 或 ||）、\fBand\fP（或 & 或 &&）和 \fBnot\fP（或 !）。如果连续谓词之间没有运算符，则假定存在隐式的 \fBand\fP
+运算符。可以使用 "(" 和 ")" 对子表达式进行分组。
+.P
+支持以下谓词：
+
+.TP 
+\fB{dst|src} [=] HOST\fP
+测试目标或源是否匹配 HOST。详情参见“主机语法”。
+.TP 
+\fB{dport|sport} [OP] [FAMILY:]:PORT\fP
+将目标或源端口与 PORT 进行比较。OP 可以是 "<"、"<="、"="、"!="、">=" 和 ">"
+中的任意一个，遵循常规算术规则。FAMILY 和 PORT 如下文“主机语法”所述。
+.TP 
+\fBdev [=|!=] DEVICE\fP
+根据连接使用的设备进行匹配。DEVICE 可以是设备名，也可以是接口索引。
+.TP 
+\fBfwmark [=|!=] MASK\fP
+根据连接的 fwmark 值进行匹配。这可以是特定的标记值，也可以是标记值后跟 "/" 和用于比较的位掩码。例如，"fwmark =
+0x01/0x03" 会在 fwmark 的最低两位为 0x01 时匹配。
+.TP 
+\fBcgroup [=|!=] PATH\fP
+如果连接属于给定路径的 cgroup，则匹配。
+.TP 
+\fBautobound\fP
+如果源地址的端口或路径是自动分配的（而不是显式指定的），则匹配。
+.P
+大多数运算符都有别名。如果未提供运算符，则假定为 "="。以下每组运算符都是等价的：
+.RS
+.IP \(bu 2
+= == eq
+.IP \(bu
+!= ne neq
+.IP \(bu
+> gt
+.IP \(bu
+< lt
+.IP \(bu
+>= ge geq
+.IP \(bu
+<= le leq
+.IP \(bu
+! not
+.IP \(bu
+| || or
+.IP \(bu
+& && and
+.RE
+.SH 主机语法
+.P
+一般主机语法为 [FAMILY:]ADDRESS[:PORT]。
+.P
+FAMILY 必须是 \-f 选项支持的类型之一。如果未给出，则默认为 \-f 选项给出的类型；如果也没有，则假定为 inet 或
+inet6。请注意，表达式中的所有主机条件要么都属于同一类型，要么都只能是 inet 和 inet6。如果混合了其他类型，结果可能出乎意料。
+.P
+ADDRESS 和 PORT 的形式取决于所使用的类型。"*" 可以用作地址或端口的通配符。各类型的详细信息如下：
+.TP 
+\fBunix\fP
+ADDRESS 是 glob 模式（参见 \fBfnmatch\fP(3)），会以不区分大小写的方式与 Unix
+套接字地址匹配。支持路径名和抽象名称。Unix 地址不支持端口，并且 "*" 不能用作通配符。
+.TP 
+\fBlink\fP
+ADDRESS 是要匹配的以太网协议名称（不区分大小写）。PORT 是所需链路设备的设备名或设备索引，如 ip link 的输出所示。
+.TP 
+\fBnetlink\fP
+ADDRESS 是 netlink 类型的描述符。可能的值来自 /etc/iproute2/nl_protos。PORT 是套接字的端口
+ID，通常与拥有该套接字的进程 ID 相同。值 "kernel" 可用于表示内核（端口 ID 为 0）。
+.TP 
+\fBvsock\fP
+ADDRESS 是表示 CID 地址的整数，PORT 是端口。
+.TP 
+\fBinet\fP\ and\ \fBinet6\fP
+ADDRESS 是 IP 地址（根据类型为 v4 或 v6），或解析为所需版本 IP 地址的 DNS 主机名。IPv6 地址必须用 "[" 和 "]"
+括起来，以消除端口分隔符的歧义。地址还可以带有 CIDR 表示法给出的前缀长度（斜杠后跟前缀长度位数）。PORT
+可以是数字套接字端口，也可以是要匹配的端口服务名。
+
+.SH 用法示例
+.TP 
+\fBss \-t \-a\fP
+显示所有 TCP 套接字。
+.TP 
+\fBss \-t \-a \-Z\fP
+显示所有带进程 SELinux 安全上下文的 TCP 套接字。
+.TP 
+\fBss \-u \-a\fP
+显示所有 UDP 套接字。
+.TP 
+\fBss \-o state established '( dport = :ssh or sport = :ssh )'\fP
+显示所有已建立的 ssh 连接。
+.TP 
+\fBss \-x src /tmp/.X11\-unix/*\fP
+查找所有连接到 X 服务器的本地进程。
+.TP 
+\fBss \-o state fin\-wait\-1 '( sport = :http or sport = :https )' dst 193.233.7/24\fP
+列出我们的 apache 到网络 193.233.7/24 的所有处于 FIN\-WAIT\-1 状态的 TCP 套接字，并查看它们的定时器。
+.TP 
+\fBss \-a \-A 'all,!tcp'\fP
+列出所有套接字表中除 TCP 之外的所有状态套接字。
+.SH 参见
+\fBip\fP(8),
+.br
+\fBRFC\fP 793 \- https://tools.ietf.org/rfc/rfc793.txt (TCP states)
+
+.SH 作者
+\fIss\fP 由 Alexey Kuznetsov 编写，<kuznet@ms2.inr.ac.ru>。
+.PP
+本手册页由 Michael Prokop <mika@grml.org> 为 Debian 项目编写（但也可以供其他人使用）。
